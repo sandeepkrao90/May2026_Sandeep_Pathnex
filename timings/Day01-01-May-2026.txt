@@ -1,0 +1,29 @@
+Today is my Day01 of DevOps Learning below here are things I learned today:
+
+>>Gone thorugh comprehensive DevOps roadmap to become a job ready DevOps Engineer
+>>Familirize my self with below tools and technologies
+Linux 
+Git
+AWS Cloud
+Docker
+Kubernetes
+ArgoCD
+Terraform
+GitLab
+Jenkins
+ELK Stack
+Promethus
+DataDog 
+OpenTelemtry
+Kafka 
+Confluent
+
+Spent my hours as per below schedule:
+
+7am-10am = Attends Live Class on DevOps Roadmap
+
+2pm - 4pm = Watched youtube videos on berief introduction of DevOps and Tools
+
+9pm-10pm = Again attended class
+
+

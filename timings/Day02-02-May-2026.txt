@@ -1,0 +1,17 @@
+Study Topics:
+- Networking Basics
+- IP Addressing
+- CIDR and Subnetting
+
+Time Spent:
+Morning: 2 Hours (7AM-9AM)
+Afternoon: 2 Hours (3PM-5PM)
+Evening Practice: 1 Hour (9PM-10PM)
+
+Activities:
+- Revised networking fundamentals
+- Learned CIDR calculations
+- Practiced subnetting basics
+- Updated GitHub repository
+
+Total Study Time: 5 Hours

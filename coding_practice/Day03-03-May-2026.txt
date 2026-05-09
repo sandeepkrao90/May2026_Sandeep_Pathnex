@@ -1,0 +1,84 @@
+Day03 - Linux Basics and Common Commands
+
+Topics Learned:
+1. Linux Basic Commands
+2. File and Directory Operations
+3. vi Editor Basics
+4. File Permissions
+5. Script Execution
+6. File Removal Commands
+
+Commands Practiced:
+
+pwd
+- Shows current working directory.
+
+whoami
+- Shows current logged-in user.
+
+ls
+- Lists files and directories.
+
+ls -la
+- Lists hidden files with detailed permissions.
+
+ls -lah
+- Shows file sizes in human-readable format.
+
+ls -lahs
+- Shows detailed file listing with file size blocks.
+
+mkdir
+- Creates directories.
+
+Examples:
+mkdir Day1 Day2 Day3
+mkdir Day{1..15}
+
+touch
+- Creates empty files.
+
+Example:
+touch Day03-03-May-2026
+
+vi
+- Opens file in vi editor.
+
+Important vi operations:
+i    -> Insert mode
+Esc  -> Exit insert mode
+:wq  -> Save and exit
+:q!  -> Exit without saving
+
+Linux File Permissions:
+Read    = 4
+Write   = 2
+Execute = 1
+
+Example:
+chmod 755 filename
+
+Meaning:
+Owner  -> rwx
+Group  -> r-x
+Others -> r-x
+
+cat
+- Displays file content.
+
+Running Scripts:
+. ./setup.sh
+
+rm Commands:
+rm file
+rm -r directory
+rm -f file
+rm -rf directory
+
+rmdir
+- Removes empty directory.
+
+nano
+- Simple Linux text editor.
+
+Day03 completed successfully.

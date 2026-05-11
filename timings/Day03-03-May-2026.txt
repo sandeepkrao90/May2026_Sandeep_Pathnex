@@ -1,0 +1,23 @@
+Day03 Timings
+
+Study Topics:
+- Linux Basics
+- Linux Commands
+- File Permissions
+- vi Editor
+
+Time Spent:
+Morning Study: 2 Hours , (7AM -9AM)
+Hands-on Practice: 2 Hours (2PM-4PM)
+Evening : 1Hr (9PM-10PM)
+GitHub Updates: 30 Minutes
+
+Activities:
+- Practiced Linux navigation commands
+- Created files and directories
+- Learned vi editor basics
+- Practiced chmod permissions
+- Executed shell scripts
+- Updated GitHub repository
+
+Total Study Time: 5.5 Hours

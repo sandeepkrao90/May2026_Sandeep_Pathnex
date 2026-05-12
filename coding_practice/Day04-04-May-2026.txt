@@ -1,0 +1,93 @@
+User creation commands:
+Create user:
+
+sudo adduser <username>
+
+Set password:
+
+sudo passwd <username>
+
+Assign sudo privileges by adding user to the 'wheel' group on Amazon Linux:
+
+sudo usermod -aG wheel <username>
+
+Password authentication requires enabling in SSH config (/etc/ssh/sshd_config):
+
+Change or add:
+
+PasswordAuthentication yes
+
+Restart SSH daemon:
+
+sudo systemctl restart sshd
+
+Linux File Permissions and Users
+
+Users have limited permissions by default; sudo privileges grant elevated rights.
+
+File ownership and permission management are essential:
+
+Change owner:
+
+sudo chown <user>:<group> <file/folder>
+
+Change permissions:
+
+chmod <mode> <file/folder>
+
+Explanation of user mask (umask) that determines default file/directory permissions:
+
+Default umask:
+022
+
+Resulting permissions:
+
+Files :
+
+666−022=644 (read/write for owner, read-only others)
+
+Directories:
+
+777−022=755 (read/write/execute owner, read/execute others)
+
+Hard Links vs Soft (Symbolic) Links
+
+Soft links (symlinks): shortcuts pointing to original files; break if original file is deleted.
+
+Hard links: multiple directory entries for the same file inode; remain valid even if original file is deleted.
+
+Commands to create links:
+
+SoftLink : Acts like a shortcut; breaks if source deleted
+
+touch original.txt 
+ln -s original.txt shortcut.txt
+
+
+Hard link : Points directly to file inode; does not break
+
+ln data.txt data-hardlink.txt
+
+
+File Search and Compression
+
+Find command used to search files/directories by name or type:
+
+Compression tools and commands:
+
+Compress Folder
+
+tar -czvf backup.tar.gz project/
+
+-c → create
+-z → gzip compression
+-v → verbose
+-f → filename
+
+Extract TAR File
+ 
+tar -xzvf backup.tar.gz
+
+gzip notes.txt
+
+gunzip notes.txt.gz

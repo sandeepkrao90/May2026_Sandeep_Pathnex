@@ -1,0 +1,109 @@
+Today is my Day05 of DevOps Learning and today I studied about Git
+
+So What is Git ?
+>> Git is a distributed version control system that helps track and manage changes in code over time. 
+It allows multiple developers to work on the same project, view previous versions, and restore changes when needed.
+
+Git Branch : So whenever we want to make a change to a codebase / repo hosted in github , we need to clone branch then
+
+create branch and push code to you branch, then you raise a PR and add soemone as reviewer, post review your changes will be merged to main branch.
+
+Once changes merged to main branch you can delete your branch.
+
+Git Merge : Combines histories of two branches. 
+git merge main
+
+Advantages
+Safe
+Keeps full history
+Best for shared branches
+Disadvantages
+Creates extra merge commits
+History can become messy
+
+Git merge preserves branch history and is considered safer for collaborative workflows.
+
+
+Git Rebase
+
+Moves your commits on top of another branch.
+
+git rebase main
+Advantages
+Clean linear history
+Cleaner commit graph
+Disadvantages
+Rewrites history
+Dangerous on shared branches
+
+Git rebase is often used to maintain a cleaner commit history before opening a PR.
+
+
+Merge Conflict 
+Conflict happens when:
+
+Two developers modify same lines
+Git cannot decide which code to keep
+
+
+
+
+Git Flow in Production :
+
+main/master branch
+       ↓
+Create feature branch
+       ↓
+Make changes
+       ↓
+git add + commit
+       ↓
+Push branch to GitHub
+       ↓
+Create Pull Request (PR)
+       ↓
+Code Review
+       ↓
+Resolve comments/conflicts
+       ↓
+Merge to main
+       ↓
+Delete feature branch
+
+
+>> Feature branch → Commit → Push → PR → Review → Merge
+
+So to setup Git , we need to install git on our system or ec2 and then configure git 
+
+Basics Commands in Git :
+
+Clone Repository
+git clone <repo-url>
+
+Pull Latest Changes
+git pull origin main
+
+Create Branch
+git checkout -b feature/day05
+
+Check Status
+git status
+
+Add Files
+git add .
+
+Commit Changes
+git commit -m "Add Docker networking notes"
+
+Push Branch
+git push origin feature/day05
+
+
+
+Time Spent:
+Morning Study: 2.5 Hours , (7AM -9:30AM)
+Hands-on Practice: 1 Hours (3PM-4PM)
+Evening : 1Hr (9PM-10PM)
+GitHub Updates: 30 Minutes
+Total Time : 5Hr
+

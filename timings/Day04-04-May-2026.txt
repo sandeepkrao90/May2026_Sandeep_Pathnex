@@ -1,0 +1,31 @@
+Today is my day 4 and I learned about below Topics
+1. Amazon EC2 and Linux Server Management
+2.Access via SSH using private and public key pairs; password authentication disabled by default.
+3.Managing SSH keys: adding public keys to servers for passwordless authentication.
+4.Creating user and set password in ec2 , adding user to 'wheel' group
+5.Password authentication requires enabling in SSH config (/etc/ssh/sshd_config and restart
+
+Also learned about below linux commands & concepts
+EC2 (Elastic Compute Cloud)	AWS virtual server for running applications
+SSH (Secure Shell)	Protocol for securely accessing remote servers
+Public/Private Key	Cryptographic keys for secure SSH authentication
+
+
+Commands : 
+sudo	            Command to execute tasks with superuser privileges
+usermod -aG wheel	Add user to sudo-enabled group on Amazon Linux
+chmod	            Change file/directory permissions
+chown	            Change file/directory ownership
+umask	            Sets default permission mask for new files/directories
+ln	                Create hard or soft symbolic links
+find	            Search files/directories by name or type
+tar	                Archive and compress files
+gzip / gunzip	    Compress and decompress files
+
+
+Time Spent:
+Morning Study: 2 Hours , (7AM -9:30AM)
+Hands-on Practice: 2 Hours (3PM-5PM)
+Evening : 1Hr (9PM-10PM)
+GitHub Updates: 30 Minutes
+Total Time : 5Hr 30 minutes

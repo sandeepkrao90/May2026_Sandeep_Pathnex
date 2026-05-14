@@ -1,0 +1,98 @@
+Top Git commands used in day to day operations :
+
+# Configure Git username & email
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+
+# Initialize new Git repository
+git init
+
+# Clone existing repository
+git clone <repo-url>
+
+# Check current status
+git status
+
+# Add all files to staging
+git add .
+
+# Add specific file
+git add <file-name>
+
+# Commit changes
+git commit -m "Your commit message"
+
+# View commit history
+git log --oneline
+
+# Pull latest changes from remote
+git pull origin main
+
+# Push code to remote repository
+git push origin main
+
+# Create and switch to new branch
+git checkout -b feature-branch
+
+# Switch branch
+git checkout main
+
+# View all branches
+git branch
+
+# Merge branch into current branch
+git merge feature-branch
+
+# Rebase current branch with main
+git rebase main
+
+# Show differences in code
+git diff
+
+# Save unfinished work temporarily
+git stash
+
+# Restore stashed changes
+git stash pop
+
+# Fetch latest changes without merging
+git fetch origin
+
+# Remove file from staging
+git reset <file-name>
+
+# Undo local changes completely
+git reset --hard
+
+# Delete local branch
+git branch -d branch-name
+
+# Delete remote branch
+git push origin --delete branch-name
+
+# Show configured remote repositories
+git remote -v
+
+# Add remote repository
+git remote add origin <repo-url>
+
+# Rename current branch to main
+git branch -M main
+
+# See who changed each line in file
+git blame <file-name>
+
+# Show details of a commit
+git show <commit-id>
+
+# Cherry-pick specific commit
+git cherry-pick <commit-id>
+
+# Continue rebase after conflict resolution
+git rebase --continue
+
+# Abort rebase
+git rebase --abort
+
+# Abort merge conflict
+git merge --abort

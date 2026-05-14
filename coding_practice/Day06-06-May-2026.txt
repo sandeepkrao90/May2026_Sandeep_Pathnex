@@ -1,0 +1,85 @@
+
+For today coding practice I did below :
+
+Creating a AWS EC2 using Terraform : 
+
+Prerequisites :
+
+AWS Account and Login
+Terraform Download and Install
+AWS CLI download and Install
+Configure AWS credentials
+
+Use this command 
+
+aws configure
+
+and enter below information : 
+
+Access Key
+Secret Key
+Region
+
+Create below Project Structure in VS-Code:
+
+Create a folder:
+mkdir terraform-ec2
+cd terraform-ec2
+
+Create a file:
+touch main.tf
+
+Basic Terraform Code for EC2 >> Add this to main.tf
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "my_ec2" {
+  ami           = "ami-0f58b397bc5c1f2e8"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "MyTerraformEC2"
+  }
+}
+
+
+Explanation of this code its divided in blocks (Prodvider Block & Resource Block)
+
+Provider Block 
+
+provider "aws" >> This tells Terraform: Which cloud provider to use & AWS region
+
+Resource Block
+
+resource "aws_instance" >> This creates One EC2 instance
+
+
+Terraform commands 
+
+terraform init        >> Intitialize Terrform and download aws provide plugins
+terraform validate    >> Checks syntax errors.
+terraform fmt         >> format code is its not aligned properly
+terraform plan       >> Preview changes that we are going to make
+terraform apply      >> Create EC2 and share details like public IP and resource details
+terraform destroy    >> Delete the EC2
+terraform show
+
+For example below code :
+
+provider "aws" {
+  region = "ap-south-1"
+}
+
+resource "aws_instance" "my_ec2" {
+  ami                    = "ami-0f58b397bc5c1f2e8"
+  instance_type          = "t2.micro"
+  key_name               = "my-keypair"
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "DevOps-Terraform-EC2"
+    Environment = "Dev"
+  }
+}

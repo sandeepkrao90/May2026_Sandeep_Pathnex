@@ -1,0 +1,388 @@
+Today is my Day 06 of DevOps Learning and I learned about various AWS Services
+
+So first of all what is AWS : AWS is basically a cloud platform that provides on-demand computing resources be it compute, storage and networking
+and many more services that are used in modern IT Infra.
+
+
+# AWS Interview Quick Revision Notes
+
+---
+
+# ☁️ EC2 (Elastic Compute Cloud)
+
+## What is EC2?
+
+Virtual server in AWS used to run applications.
+
+## Important Concepts
+
+* **AMI** → Template to launch instance (OS + configs)
+* **Instance Types** → CPU/RAM optimized
+
+  * General Purpose → t2/t3
+  * Compute Optimized → c5
+  * Memory Optimized → r5
+* **EBS** → Persistent block storage attached to EC2
+* **Security Group** → Virtual firewall (stateful)
+* **Key Pair** → SSH login access
+* **User Data** → Bootstrapping script during launch
+
+## Scaling & Availability
+
+* Deploy in multiple AZs for HA
+* Use Auto Scaling + Load Balancer
+
+## Interview Points
+
+* Difference between Security Group and NACL
+* Difference between EBS and Instance Store
+* EC2 pricing models:
+
+  * On-Demand
+  * Reserved
+  * Spot
+  * Savings Plans
+
+---
+
+# 🔐 IAM (Identity and Access Management)
+
+## What is IAM?
+
+Controls authentication and authorization in AWS.
+
+## Core Components
+
+* **User** → Individual account
+* **Group** → Collection of users
+* **Role** → Temporary access (preferred for services)
+* **Policy** → JSON permissions document
+
+## Types of Policies
+
+* Managed Policy
+* Inline Policy
+
+## Best Practices
+
+* Never use root account daily
+* Enable MFA
+* Follow Least Privilege Principle
+* Prefer IAM Roles over Access Keys
+
+## Interview Points
+
+* Difference between Role and User
+* How EC2 accesses S3 without hardcoded credentials → IAM Role
+* IAM is Global service
+
+---
+
+# 🪣 S3 (Simple Storage Service)
+
+## What is S3?
+
+Object storage service for storing files.
+
+## Key Concepts
+
+* Bucket → Container
+* Object → File
+* Object Versioning
+* Lifecycle Policies
+* Encryption
+
+## Storage Classes
+
+* Standard
+* Standard-IA
+* One Zone-IA
+* Glacier
+* Glacier Deep Archive
+
+## Security
+
+* Bucket Policy
+* IAM Policy
+* ACL (less preferred)
+* Block Public Access
+
+## Features
+
+* Static Website Hosting
+* Cross Region Replication
+* Event Notifications
+
+## Interview Points
+
+* S3 is regional service
+* Data stored across multiple AZs
+* Max object size → 5 TB
+* Multipart upload for large files
+
+---
+
+# 💻 Session Manager
+
+## What is Session Manager?
+
+AWS Systems Manager feature to securely connect to EC2 without SSH.
+
+## Benefits
+
+* No need for port 22
+* No bastion host required
+* Session logging possible
+* More secure access
+
+## Requirements
+
+* SSM Agent installed
+* IAM Role attached to EC2
+* Internet/NAT/VPC endpoint access
+
+## Interview Points
+
+* Used for secure server administration
+* Helps avoid managing SSH keys
+
+---
+
+# 🌐 Route 53
+
+## What is Route 53?
+
+AWS DNS and domain management service.
+
+## Routing Policies
+
+* Simple
+* Weighted
+* Latency Based
+* Failover
+* Geolocation
+
+## Important Features
+
+* Health Checks
+* Domain Registration
+* Private Hosted Zones
+
+## Interview Points
+
+* Highly available DNS service
+* Supports active-passive failover
+* Integrates with Load Balancer and CloudFront
+
+---
+
+# 📜 CloudTrail
+
+## What is CloudTrail?
+
+Tracks AWS API activity and account actions.
+
+## Key Uses
+
+* Auditing
+* Governance
+* Security investigation
+* Compliance
+
+## Important Facts
+
+* Logs API calls
+* Stores logs in S3
+* Can send events to CloudWatch
+
+## Interview Points
+
+* Used to identify "who did what"
+* Enabled by default for basic event history
+
+---
+
+# 📊 CloudWatch
+
+## What is CloudWatch?
+
+Monitoring and observability service.
+
+## Components
+
+* Metrics
+* Logs
+* Alarms
+* Dashboards
+* Events/EventBridge
+
+## Common Monitoring Metrics
+
+* CPU Utilization
+* Memory (custom)
+* Disk usage
+* Network traffic
+
+## Use Cases
+
+* Monitoring EC2/EKS/Lambda
+* Alerting via SNS
+* Log analysis
+
+## Interview Points
+
+* Default EC2 metrics every 5 mins
+* Detailed monitoring → 1 min
+* CloudWatch Logs Agent used for custom logs
+
+---
+
+# ☸️ EKS (Elastic Kubernetes Service)
+
+## What is EKS?
+
+Managed Kubernetes service in AWS.
+
+## Architecture
+
+* AWS manages Control Plane
+* User manages Worker Nodes
+
+## Components
+
+* Cluster
+* Node Group
+* Pod
+* Service
+* Deployment
+* Ingress
+
+## Networking
+
+* Uses VPC
+* Pods get IPs from VPC CNI
+
+## Benefits
+
+* Managed Kubernetes
+* High availability
+* Integrated with IAM
+
+## Interview Points
+
+* EKS control plane is managed by AWS
+* Worker nodes can be EC2 or Fargate
+* kubectl used to manage cluster
+* Supports Auto Scaling
+
+---
+
+# 📈 Auto Scaling
+
+## What is Auto Scaling?
+
+Automatically adds/removes EC2 instances based on load.
+
+## Components
+
+* Launch Template
+* Auto Scaling Group (ASG)
+* Scaling Policies
+
+## Types of Scaling
+
+* Dynamic Scaling
+* Scheduled Scaling
+* Predictive Scaling
+
+## Health Checks
+
+* EC2 Health Check
+* ELB Health Check
+
+## Interview Points
+
+* Works with CloudWatch alarms
+* Helps achieve HA and cost optimization
+* Desired Capacity, Min Size, Max Size important concepts
+
+---
+
+# 🔥 Very Important Rapid Fire Questions
+
+## EC2
+
+* Difference between Security Group and NACL
+* Difference between EBS and EFS
+
+## IAM
+
+* Role vs Policy
+* Authentication vs Authorization
+
+## S3
+
+* Object vs Block vs File storage
+* S3 versioning benefits
+
+## CloudWatch vs CloudTrail
+
+* CloudWatch → Monitoring
+* CloudTrail → Auditing/API logs
+
+## Route 53
+
+* What happens when DNS fails?
+* Explain failover routing
+
+## EKS
+
+* Pod vs Container
+* Deployment vs StatefulSet
+* Service types:
+
+  * ClusterIP
+  * NodePort
+  * LoadBalancer
+
+## Auto Scaling
+
+* How scaling triggers happen?
+* What happens if an instance becomes unhealthy?
+
+---
+
+# 🎯 Final Interview Tips
+
+* Explain services with:
+
+  1. What it is
+  2. Why used
+  3. Real-world example
+
+* Use practical examples:
+
+  * EC2 → hosting app
+  * S3 → storing logs/backups
+  * CloudWatch → monitoring CPU
+  * Auto Scaling → handling traffic spike
+  * Route53 → DNS routing
+  * EKS → container orchestration
+
+* Focus on:
+
+  * Security
+  * High Availability
+  * Scalability
+  * Cost Optimization
+
+
+
+--------------------------
+Time Spent today :
+
+Morning Study: 2.5 Hours , (7AM -9:30AM)
+Hands-on Practice: 1 Hours (3PM-4PM)
+Evening : 1Hr (9PM-10PM)
+GitHub Updates: 30 Minutes
+Total Time : 5Hr

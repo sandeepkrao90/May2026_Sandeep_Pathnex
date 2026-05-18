@@ -1,0 +1,405 @@
+# ⚡ Lambda
+
+## What is Lambda?
+
+Serverless compute service to run code without managing servers.
+
+## Key Features
+
+* Event-driven
+* Auto scaling
+* Pay per execution
+* Supports multiple languages
+
+## Common Triggers
+
+* S3
+* API Gateway
+* CloudWatch Events/EventBridge
+* DynamoDB Streams
+
+## Important Concepts
+
+* Execution Role
+* Timeout
+* Memory Allocation
+* Cold Start
+
+## Interview Points
+
+* Max execution timeout → 15 mins
+* Stateless service
+* Good for automation/microservices
+* Concurrency controls scaling
+
+---
+
+# 🛡️ AWS Shield
+
+## What is AWS Shield?
+
+Protection against DDoS attacks.
+
+## Types
+
+* Shield Standard (free)
+* Shield Advanced (paid)
+
+## Protects
+
+* CloudFront
+* Route 53
+* ELB
+* Global Accelerator
+
+## Interview Points
+
+* Layer 3 & Layer 4 DDoS protection
+* Shield Standard enabled by default
+* Advanced provides detailed attack visibility
+
+---
+
+# 🔥 AWS WAF (Web Application Firewall)
+
+## What is WAF?
+
+Protects web applications from common web exploits.
+
+## Protects Against
+
+* SQL Injection
+* Cross-Site Scripting (XSS)
+* Bad Bots
+* IP blocking
+
+## Works With
+
+* CloudFront
+* ALB
+* API Gateway
+
+## Features
+
+* Rate limiting
+* Custom rules
+* Managed rule groups
+
+## Interview Points
+
+* Operates at Layer 7 (HTTP/HTTPS)
+* Used together with Shield for better protection
+
+---
+
+# 🕵️ Amazon GuardDuty
+
+## What is GuardDuty?
+
+Threat detection and continuous security monitoring service.
+
+## Monitors
+
+* VPC Flow Logs
+* CloudTrail Logs
+* DNS Logs
+
+## Detects
+
+* Unauthorized access
+* Crypto mining
+* Malicious IP activity
+
+## Interview Points
+
+* Uses ML and threat intelligence
+* Agentless service
+* Generates security findings
+
+---
+
+# 🔍 Amazon Inspector
+
+## What is Inspector?
+
+Automated vulnerability assessment service.
+
+## Scans
+
+* EC2 instances
+* Container images (ECR)
+* Lambda functions
+
+## Detects
+
+* CVEs
+* Security vulnerabilities
+* Unpatched software
+
+## Interview Points
+
+* Continuous scanning
+* Integrates with Security Hub
+* Helps with compliance/security posture
+
+---
+
+# 🔐 AWS Key Management Service (KMS)
+
+## What is KMS?
+
+Managed encryption key service.
+
+## Key Concepts
+
+* Customer Managed Keys (CMK)
+* AWS Managed Keys
+* Envelope Encryption
+
+## Integrations
+
+* S3
+* EBS
+* RDS
+* Lambda
+
+## Features
+
+* Key rotation
+* Access control using IAM
+* Audit with CloudTrail
+
+## Interview Points
+
+* Used for encryption at rest
+* Regional service
+* Cannot retrieve plaintext key material directly
+
+---
+
+# 🗄️ Amazon RDS
+
+## What is RDS?
+
+Managed relational database service.
+
+## Supported Databases
+
+* MySQL
+* PostgreSQL
+* MariaDB
+* Oracle
+* SQL Server
+
+## Features
+
+* Automated backups
+* Multi-AZ deployment
+* Read replicas
+* Monitoring
+
+## Interview Points
+
+* Multi-AZ → High Availability
+* Read Replica → Scaling reads
+* Automated patching available
+
+---
+
+# ⚡ Amazon Aurora
+
+## What is Aurora?
+
+AWS-managed high-performance relational database compatible with MySQL/PostgreSQL.
+
+## Benefits
+
+* Faster than standard MySQL/Postgres
+* Auto scaling storage
+* Highly available
+
+## Architecture
+
+* 6 copies across 3 AZs
+
+## Features
+
+* Aurora Serverless
+* Read Replicas
+* Fast failover
+
+## Interview Points
+
+* Better performance than RDS MySQL
+* Storage auto grows
+* Shared distributed storage architecture
+
+---
+
+# ⚡ Amazon DynamoDB
+
+## What is DynamoDB?
+
+Fully managed NoSQL database.
+
+## Key Concepts
+
+* Table
+* Partition Key
+* Sort Key
+
+## Features
+
+* Millisecond latency
+* Auto scaling
+* Serverless
+* Global Tables
+
+## Capacity Modes
+
+* On-Demand
+* Provisioned
+
+## Interview Points
+
+* NoSQL key-value/document DB
+* Great for high-scale applications
+* TTL support available
+
+---
+
+# 📊 Amazon Redshift
+
+## What is Redshift?
+
+Fully managed data warehouse service.
+
+## Used For
+
+* Analytics
+* BI reporting
+* Large-scale querying
+
+## Features
+
+* Columnar storage
+* Massively Parallel Processing (MPP)
+* Integrates with BI tools
+
+## Interview Points
+
+* OLAP workload
+* Optimized for analytical queries
+* Different from RDS (transactional DB)
+
+---
+
+# 🔄 AWS DMS (Database Migration Service)
+
+## What is DMS?
+
+Service to migrate databases to AWS with minimal downtime.
+
+## Supports
+
+* Homogeneous migration
+
+  * MySQL → MySQL
+* Heterogeneous migration
+
+  * Oracle → PostgreSQL
+
+## Features
+
+* Continuous replication
+* CDC (Change Data Capture)
+* Minimal downtime
+
+## Components
+
+* Replication Instance
+* Source Endpoint
+* Target Endpoint
+
+## Interview Points
+
+* Used during cloud migration
+* Supports ongoing replication
+* Schema conversion may need SCT tool
+
+---
+
+# 🔥 Important Interview Comparisons
+
+## RDS vs DynamoDB
+
+* RDS → Relational SQL DB
+* DynamoDB → NoSQL key-value DB
+
+## Aurora vs RDS
+
+* Aurora faster and cloud optimized
+* Better HA and storage scaling
+
+## Shield vs WAF
+
+* Shield → DDoS protection
+* WAF → HTTP attack protection
+
+## GuardDuty vs Inspector
+
+* GuardDuty → Threat detection/monitoring
+* Inspector → Vulnerability scanning
+
+## Redshift vs RDS
+
+* Redshift → Analytics/Data warehouse
+* RDS → Transactional database
+
+---
+
+# 🎯 Real World Use Cases
+
+## Lambda
+
+* Serverless APIs
+* Automation scripts
+* Event processing
+
+## WAF + Shield
+
+* Protect internet-facing applications
+
+## GuardDuty
+
+* Security monitoring for suspicious activity
+
+## KMS
+
+* Encrypt S3 buckets and databases
+
+## RDS/Aurora
+
+* Backend databases for applications
+
+## DynamoDB
+
+* Gaming, IoT, real-time apps
+
+## Redshift
+
+* Business analytics dashboards
+
+## DMS
+
+* Migrating on-prem DB to AWS cloud
+
+
+--------------------------
+Time Spent today :
+
+Morning Study: 2.5 Hours , (7AM -9:30AM)
+Hands-on Practice: 1 Hours (6PM-7PM)
+Evening : 1Hr (9PM-10PM)
+GitHub Updates: 30 Minutes
+Total Time : 5Hr

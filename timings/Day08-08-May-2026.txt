@@ -1,0 +1,305 @@
+# 📦 AWS Batch
+
+## What is AWS Batch?
+
+Service to run batch computing jobs at scale.
+
+## Features
+
+* Automatically provisions compute resources
+* Supports Docker containers
+* Handles job queues and scheduling
+
+## Compute Options
+
+* EC2
+* Spot Instances
+* Fargate
+
+## Use Cases
+
+* Data processing
+* Image/video rendering
+* Scientific workloads
+
+## Interview Points
+
+* Used for large-scale background jobs
+* Cost optimization with Spot instances
+* Integrates with ECS/EKS
+
+---
+
+# 🔄 AWS Glue
+
+## What is AWS Glue?
+
+Serverless ETL (Extract, Transform, Load) service.
+
+## Features
+
+* Data discovery using Crawlers
+* ETL jobs
+* Data Catalog
+* Serverless execution
+
+## Common Integrations
+
+* S3
+* Redshift
+* Athena
+* RDS
+
+## Interview Points
+
+* Used in data engineering pipelines
+* Automatically infers schema
+* PySpark commonly used in Glue jobs
+
+---
+
+# 📁 Amazon Elastic File System (EFS)
+
+## What is EFS?
+
+Managed scalable shared file storage for Linux workloads.
+
+## Features
+
+* Shared across multiple EC2 instances
+* Automatically scales
+* Highly available
+
+## Access
+
+* Mounted via NFS protocol
+
+## Use Cases
+
+* Shared application storage
+* Kubernetes persistent storage
+* CMS systems
+
+## Interview Points
+
+* Regional service
+* Supports concurrent access
+* More expensive than EBS but shared
+
+---
+
+# 🌱 AWS Elastic Beanstalk
+
+## What is Elastic Beanstalk?
+
+Platform as a Service (PaaS) for deploying applications.
+
+## Supports
+
+* Java
+* Python
+* Node.js
+* .NET
+* Docker
+
+## Features
+
+* Auto Scaling
+* Load Balancer
+* Monitoring
+* Automated deployments
+
+## Interview Points
+
+* Simplifies infrastructure management
+* Developer uploads code, AWS manages infra
+* Uses EC2, ASG, ELB underneath
+
+---
+
+# 🌍 Amazon CloudFront
+
+## What is CloudFront?
+
+AWS Content Delivery Network (CDN).
+
+## Benefits
+
+* Low latency
+* Faster content delivery
+* Global edge locations
+
+## Origins
+
+* S3
+* ALB
+* EC2
+* External servers
+
+## Features
+
+* Caching
+* HTTPS support
+* DDoS protection with Shield
+* WAF integration
+
+## Interview Points
+
+* Uses edge locations worldwide
+* Improves website performance
+* Supports signed URLs/cookies
+
+---
+
+# 🚚 AWS Snowball
+
+## What is Snowball?
+
+Physical device for transferring large amounts of data into/out of AWS.
+
+## Use Cases
+
+* Data center migration
+* Backup transfer
+* Limited network bandwidth scenarios
+
+## Types
+
+* Snowball Edge Storage Optimized
+* Snowball Edge Compute Optimized
+
+## Interview Points
+
+* Offline data transfer solution
+* More secure and faster for PB-scale data migration
+* Data encrypted using KMS
+
+---
+
+# 🔁 AWS CodePipeline
+
+## What is CodePipeline?
+
+CI/CD orchestration service.
+
+## Pipeline Stages
+
+* Source
+* Build
+* Test
+* Deploy
+
+## Integrations
+
+* GitHub
+* CodeBuild
+* CodeDeploy
+* Jenkins
+
+## Interview Points
+
+* Automates software release process
+* Event-driven pipeline
+* Supports multi-stage deployments
+
+---
+
+# 🏗️ AWS CodeBuild
+
+## What is CodeBuild?
+
+Managed build service.
+
+## Features
+
+* Compiles source code
+* Runs tests
+* Creates deployment artifacts
+
+## Benefits
+
+* Serverless
+* Auto scaling
+* Pay per build minute
+
+## Interview Points
+
+* Uses buildspec.yml
+* No need to manage build servers
+* Integrates with CodePipeline
+
+---
+
+# 🚀 AWS CodeDeploy
+
+## What is CodeDeploy?
+
+Automated deployment service.
+
+## Deployment Targets
+
+* EC2
+* Lambda
+* ECS
+
+## Deployment Strategies
+
+* In-place deployment
+* Blue/Green deployment
+
+## Features
+
+* Rollback support
+* Zero downtime deployments
+
+## Interview Points
+
+* Uses appspec.yml
+* Blue/Green reduces deployment risk
+* Integrates with Auto Scaling
+
+---
+
+# 🔍 AWS X-Ray
+
+## What is X-Ray?
+
+Distributed tracing and application performance analysis service.
+
+## Features
+
+* Request tracing
+* Dependency mapping
+* Latency analysis
+* Error tracking
+
+## Helps Identify
+
+* Bottlenecks
+* Slow services
+* Failed requests
+
+## Integrations
+
+* Lambda
+* ECS
+* EKS
+* API Gateway
+
+## Interview Points
+
+* Used in microservices troubleshooting
+* Visual service map available
+* Helps with observability
+
+---
+
+
+--------------------------
+Time Spent today :
+
+Morning Study: 2.5 Hours , (7AM -9:30AM)
+Hands-on Practice: 1 Hours (4PM-5PM)
+Evening : 1Hr (9PM-10PM)
+GitHub Updates: 30 Minutes
+Total Time : 5Hr

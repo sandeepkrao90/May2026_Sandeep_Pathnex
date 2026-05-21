@@ -1,0 +1,81 @@
+
+Today I tried install Jenkins on my ec2 
+
+Step 1: Launch EC2 Instance
+
+Create an EC2 instance with:
+
+Amazon Linux 2 / Amazon Linux 2023
+t2.micro 
+Allow these ports in Security Group:
+22 → SSH
+8080 → Jenkins UI
+
+Connect to ec2
+
+ssh -i your-key.pem ec2-user@<EC2-PUBLIC-IP>
+
+Update EC2
+
+sudo yum update -y
+
+Jenkins need Java so we will be installing Java
+
+sudo amazon-linux-extras enable corretto17
+sudo yum install java-17-amazon-corretto -y
+
+java -version
+
+Add Jenkins Repository
+
+sudo wget -O /etc/yum.repos.d/jenkins.repo \
+https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+Import Jenkins key:
+
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+
+Install Jenkins : sudo yum install jenkins -y
+
+Start Jenkins
+
+sudo systemctl start jenkins
+
+Check Status :
+
+sudo systemctl status jenkins
+
+Access Jenkins
+
+http://<EC2-PUBLIC-IP>:8080
+
+Get initial password :
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+
+Complete Jenkins Setup
+
+Inside UI:
+
+Install Suggested Plugins
+Create Admin User
+Save & Continue
+
+Jenkins is now ready.
+
+
+sudo systemctl start jenkins
+
+sudo systemctl stop jenkins
+
+sudo systemctl restart jenkins
+
+
+Default Paths:
+
+Jenkins Home	/var/lib/jenkins
+Config File	/etc/sysconfig/jenkins
+Logs	/var/log/jenkins/jenkins.log
+

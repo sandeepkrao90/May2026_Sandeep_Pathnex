@@ -1,0 +1,142 @@
+Today Topic is docker :
+
+1. What is Docker?
+
+Docker is an open-source containerization platform used to:
+
+Build applications
+Package dependencies
+Run applications consistently across environments
+
+Docker packages applications into containers.
+
+2. Why Docker is Needed
+
+Problems before Docker:
+
+“Works on my machine” issue
+Dependency conflicts
+Different OS/runtime versions
+Difficult deployments
+
+Docker solves this by creating portable containers.
+
+3. What is Containerization?
+
+Containerization is the process of packaging:
+
+Application code
+Runtime
+Libraries
+Dependencies
+
+…into a lightweight container.
+
+Containers run consistently everywhere.
+
+
+Main Components:
+
+Docker Client
+Docker Daemon
+Docker Engine
+Docker Registry
+Containers
+Images
+
+Docker Registry
+
+Stores Docker images.
+
+Examples:
+
+Docker Hub
+AWS ECR
+Azure ACR
+
+Important Docker Concepts:
+
+Docker Image
+Read-only template
+Used to create containers
+Contains app + dependencies
+
+example : docker pull nginx
+
+Docker Container
+Running instance of image
+Lightweight isolated environment
+
+example : docker run nginx
+
+Dockerfile
+
+Text file containing build instructions.
+
+example : 
+
+FROM nginx
+COPY . /usr/share/nginx/html
+
+Docker Build
+
+Creates image from Dockerfile.
+
+Docker Lifecycle
+
+docker build
+docker run
+docker stop
+docker rm
+
+
+Important Docker Commands
+
+Images
+
+docker images
+docker pull nginx
+docker rmi nginx
+
+Containers
+
+docker ps
+docker ps -a
+docker run nginx
+docker stop <id>
+docker rm <id>
+
+Logs & Troubleshooting
+
+docker logs <container>
+docker inspect <container>
+docker exec -it <container> bash
+
+
+Port Mapping. >> Maps host port to container port.
+
+docker run -p 8080:80 nginx
+
+Host Port → 8080
+Container Port → 80
+
+
+Detached vs Interactive Mode
+
+Detached runs in background
+
+docker run -d nginx
+
+Interactive 
+
+docker run -it ubuntu bash
+
+
+--------------------------
+Time Spent today :
+
+Morning Study: 2.5 Hours , (7AM -9:30AM)
+Hands-on Practice: 1 Hours (4PM-5PM)
+Evening : 1Hr (9PM-10PM)
+GitHub Updates: 30 Minutes
+Total Time : 5Hr

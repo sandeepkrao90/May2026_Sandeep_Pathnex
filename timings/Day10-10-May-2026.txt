@@ -1,0 +1,459 @@
+
+
+
+# Today I learned about Kubernetes basics and its architecure & Interview Revision Notes (Beginner Level)
+
+
+# 1. What is Kubernetes?
+
+Kubernetes (K8s) is an open-source container orchestration platform used to:
+
+* Deploy containers
+* Manage containers
+* Scale applications
+* Automate container operations
+
+Originally developed by Google.
+
+---
+
+# 2. Why Kubernetes is Needed
+
+Docker can run containers, but managing hundreds of containers manually is difficult.
+
+Kubernetes solves:
+
+* Auto scaling
+* Load balancing
+* Self-healing
+* High availability
+* Rolling updates
+* Container orchestration
+
+---
+
+# 3. What is Container Orchestration?
+
+Managing containers automatically:
+
+* Deployment
+* Scaling
+* Monitoring
+* Networking
+* Recovery
+
+Kubernetes automates all these tasks.
+
+---
+
+# 4. Kubernetes Architecture
+
+Kubernetes Cluster contains:
+
+* Control Plane (Master Node)
+* Worker Nodes
+
+---
+
+# 5. Control Plane Components
+
+| Component                | Purpose                      |
+| ------------------------ | ---------------------------- |
+| API Server               | Entry point for all requests |
+| ETCD                     | Stores cluster data          |
+| Scheduler                | Assigns pods to nodes        |
+| Controller Manager       | Maintains desired state      |
+| Cloud Controller Manager | Cloud integration            |
+
+---
+
+# 6. Worker Node Components
+
+| Component         | Purpose                  |
+| ----------------- | ------------------------ |
+| Kubelet           | Communicates with master |
+| Kube Proxy        | Networking               |
+| Container Runtime | Runs containers          |
+
+Container runtime examples:
+
+* Docker
+* containerd
+* CRI-O
+
+---
+
+# 7. Important Kubernetes Concepts
+
+# Pod
+
+Smallest deployable unit in Kubernetes.
+
+A Pod can contain:
+
+* One container
+* Multiple containers
+
+Example: kubectl get pods
+
+---
+
+# Deployment
+
+Used to manage Pods.
+
+Features:
+
+* Scaling
+* Rolling updates
+* Self-healing
+
+Example: kubectl get deployments
+
+
+---
+
+# Service
+
+Exposes application to internal/external users.
+
+Types:
+
+* ClusterIP
+* NodePort
+* LoadBalancer
+
+---
+
+# Namespace
+
+Logical separation inside cluster.
+
+Example: kubectl get ns
+
+
+---
+
+# ConfigMap
+
+Stores non-sensitive configuration data.
+
+---
+
+# Secret
+
+Stores sensitive data:
+
+* Passwords
+* API keys
+* Tokens
+
+---
+
+# Volume
+
+Provides persistent storage for Pods.
+
+---
+
+# 8. Kubernetes Workflow
+
+
+Developer → Docker Image → Kubernetes Deployment → Pod Creation
+
+
+---
+
+# 9. Pod Lifecycle
+
+States:
+
+* Pending
+* Running
+* Succeeded
+* Failed
+* CrashLoopBackOff
+
+Check: kubectl get pods
+
+
+---
+
+# 10. ReplicaSet
+
+Ensures desired number of pod replicas are running.
+
+Example:
+
+* Desired replicas = 3
+* If one pod crashes, Kubernetes creates another.
+
+---
+
+# 11. Scaling in Kubernetes
+
+Manual scaling:
+
+
+kubectl scale deployment nginx --replicas=3
+
+Auto scaling:
+
+* HPA (Horizontal Pod Autoscaler)
+
+---
+
+# 12. Self-Healing
+
+If Pod crashes:
+
+* Kubernetes automatically recreates it.
+
+This is one of the biggest advantages.
+
+---
+
+# 13. Rolling Updates
+
+Used for zero-downtime deployments.
+
+Kubernetes:
+
+* Gradually replaces old pods
+* Creates new pods
+
+Rollback possible:
+
+kubectl rollout undo deployment nginx
+
+---
+
+# 14. Kubernetes Networking
+
+Every Pod gets:
+
+* Unique IP address
+
+Communication:
+
+* Pod-to-Pod
+* Service-to-Pod
+
+Kube Proxy manages networking.
+
+---
+
+# 15. Kubernetes Services
+
+| Service Type | Purpose                  |
+| ------------ | ------------------------ |
+| ClusterIP    | Internal communication   |
+| NodePort     | External access via node |
+| LoadBalancer | Cloud load balancer      |
+
+---
+
+# 16. Ingress
+
+Manages external HTTP/HTTPS traffic.
+
+Benefits:
+
+* Path-based routing
+* SSL termination
+* Single entry point
+
+---
+
+# 17. YAML in Kubernetes
+
+Kubernetes resources are defined using YAML files.
+
+Example:
+
+yaml
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: nginx
+
+spec:
+  replicas: 2
+
+
+Apply:
+
+kubectl apply -f deployment.yaml
+
+
+---
+
+# 18. Important kubectl Commands
+
+## Cluster Info
+
+kubectl cluster-info
+kubectl get nodes
+
+---
+
+## Pods
+
+kubectl get pods
+kubectl describe pod <pod>
+kubectl logs <pod>
+kubectl delete pod <pod>
+
+
+---
+
+## Deployments
+
+kubectl get deployments
+kubectl scale deployment nginx --replicas=3
+
+---
+
+## YAML Apply
+
+kubectl apply -f file.yaml
+
+---
+
+## Exec Inside Pod
+
+
+kubectl exec -it <pod> -- bash
+
+---
+
+# 19. Kubernetes vs Docker
+
+| Docker             | Kubernetes             |
+| ------------------ | ---------------------- |
+| Creates containers | Manages containers     |
+| Single host focus  | Cluster management     |
+| Container runtime  | Orchestration platform |
+
+Docker + Kubernetes work together.
+
+---
+
+# 20. Kubernetes in AWS
+
+Managed Kubernetes service:
+
+* Amazon EKS
+
+Benefits:
+
+* Managed control plane
+* Auto scaling
+* AWS integration
+
+---
+
+# 21. Common Interview Questions
+
+# Q1. What is Kubernetes?
+
+Container orchestration platform used to automate deployment, scaling, and management of containers.
+
+---
+
+# Q2. What is a Pod?
+
+Smallest deployable unit in Kubernetes containing one or more containers.
+
+---
+
+# Q3. Difference between Pod and Container?
+
+Container:
+
+* Actual application runtime
+
+Pod:
+
+* Wrapper around containers
+
+---
+
+# Q4. What is Deployment?
+
+Kubernetes object used to manage Pods and replicas.
+
+---
+
+# Q5. What is ReplicaSet?
+
+Ensures desired number of pods are running.
+
+---
+
+# Q6. What is Service in Kubernetes?
+
+Used to expose Pods for communication.
+
+---
+
+# Q7. What is Namespace?
+
+Logical isolation mechanism inside cluster.
+
+---
+
+# Q8. What is ETCD?
+
+Key-value datastore storing Kubernetes cluster state.
+
+---
+
+# Q9. What happens if Pod crashes?
+
+Kubernetes automatically recreates it using ReplicaSet/Deployment.
+
+---
+
+# Q10. What is Rolling Update?
+
+Gradual application update without downtime.
+
+---
+
+# 22. Real Production Use Cases
+
+| Use Case          | Example                      |
+| ----------------- | ---------------------------- |
+| Microservices     | Multiple app containers      |
+| Auto Scaling      | Increase pods during traffic |
+| High Availability | Multiple replicas            |
+| CI/CD             | Jenkins deploys to K8s       |
+| Cloud Deployment  | EKS clusters                 |
+
+---
+
+# 23. Kubernetes Best Practices
+
+* Use namespaces
+* Use resource limits
+* Use liveness/readiness probes
+* Store secrets securely
+* Use rolling updates
+* Monitor cluster health
+
+---
+
+# 24. Important Kubernetes Objects
+
+| Object     | Purpose             |
+| ---------- | ------------------- |
+| Pod        | Runs containers     |
+| Deployment | Manages pods        |
+| Service    | Exposes application |
+| ConfigMap  | Configurations      |
+| Secret     | Sensitive data      |
+| Namespace  | Isolation           |
+| Ingress    | HTTP routing        |
+

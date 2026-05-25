@@ -1,0 +1,735 @@
+# Advanced Kubernetes + EKS Interview Revision Notes
+
+These notes are focused on:
+
+* DevOps interviews
+* Production support interviews
+* Cloud/Platform Engineering interviews
+* EKS-based environments
+
+---
+
+# 1. What is EKS?
+
+## Amazon EKS (Elastic Kubernetes Service)
+
+Managed Kubernetes service by AWS.
+
+AWS manages:
+
+* Control Plane
+* API Server
+* ETCD
+* High Availability
+
+You manage:
+
+* Worker Nodes
+* Applications
+* Networking
+* Security
+
+---
+
+# 2. EKS Architecture
+
+Components:
+
+* EKS Control Plane
+* Managed Node Groups
+* Worker Nodes
+* VPC
+* IAM
+* Security Groups
+* Load Balancer
+* EBS/EFS
+
+---
+
+# 3. Important Advanced Kubernetes Concepts
+
+| Concept            | Importance          |
+| ------------------ | ------------------- |
+| Ingress            | HTTP routing        |
+| HPA                | Auto scaling        |
+| RBAC               | Security            |
+| Network Policies   | Traffic control     |
+| Helm               | Package manager     |
+| StatefulSets       | Stateful apps       |
+| DaemonSets         | One pod per node    |
+| Taints/Tolerations | Dedicated workloads |
+| Affinity           | Pod placement       |
+| Probes             | Health checks       |
+| Operators          | Automation          |
+| CRD                | Custom resources    |
+
+---
+
+# 4. Ingress
+
+Used to expose HTTP/HTTPS applications.
+
+Features:
+
+* SSL termination
+* Path-based routing
+* Host-based routing
+
+Example:
+
+yaml
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+
+In AWS EKS:
+
+* AWS Load Balancer Controller creates ALB.
+
+---
+
+# 5. Horizontal Pod Autoscaler (HPA)
+
+Automatically scales pods based on:
+
+* CPU
+* Memory
+* Custom metrics
+
+Example:
+
+
+kubectl autoscale deployment nginx --cpu-percent=70 --min=2 --max=10
+
+
+Interview Point:
+
+* Requires Metrics Server.
+
+---
+
+# 6. Vertical Pod Autoscaler (VPA)
+
+Adjusts:
+
+* CPU
+* Memory requests/limits
+
+Not pod count.
+
+---
+
+# 7. Cluster Autoscaler
+
+Scales worker nodes automatically.
+
+In EKS:
+
+* Adds/removes EC2 nodes based on workload.
+
+---
+
+# 8. RBAC (Role-Based Access Control)
+
+Controls permissions in cluster.
+
+Components:
+
+* Role
+* ClusterRole
+* RoleBinding
+* ClusterRoleBinding
+
+Example:
+
+
+kind: Role
+kind: RoleBinding
+
+
+Interview Tip:
+
+* Namespace-specific → Role
+* Cluster-wide → ClusterRole
+
+---
+
+# 9. Service Accounts
+
+Identity for pods.
+
+Used with:
+
+* IAM Roles for Service Accounts (IRSA)
+
+Very important in EKS.
+
+---
+
+# 10. IRSA (IAM Roles for Service Accounts)
+
+EKS feature allowing Pods to access AWS services securely.
+
+Example:
+
+* Pod accesses S3 without static credentials.
+
+Benefits:
+
+* Better security
+* Least privilege access
+
+---
+
+# 11. Kubernetes Probes
+
+## Liveness Probe
+
+Checks if container is alive.
+
+If failed:
+
+* Pod restarted.
+
+---
+
+## Readiness Probe
+
+Checks if pod ready to receive traffic.
+
+If failed:
+
+* Traffic not routed.
+
+---
+
+## Startup Probe
+
+Used for slow-starting apps.
+
+---
+
+# 12. Resource Requests & Limits
+
+
+resources:
+  requests:
+    memory: "128Mi"
+  limits:
+    memory: "512Mi"
+
+
+Purpose:
+
+* Prevent resource starvation
+* Better scheduling
+
+Interview Tip:
+
+* Requests = guaranteed
+* Limits = maximum allowed
+
+---
+
+# 13. StatefulSet
+
+Used for stateful applications:
+
+* MySQL
+* Kafka
+* MongoDB
+
+Features:
+
+* Stable hostname
+* Persistent storage
+* Ordered deployment
+
+---
+
+# 14. DaemonSet
+
+Runs one pod on every node.
+
+Examples:
+
+* Fluentd
+* Datadog Agent
+* Node Exporter
+
+---
+
+# 15. ConfigMap vs Secret
+
+| ConfigMap          | Secret         |
+| ------------------ | -------------- |
+| Non-sensitive data | Sensitive data |
+| Plain text         | Base64 encoded |
+
+---
+
+# 16. Persistent Volumes
+
+## PV (Persistent Volume)
+
+Actual storage resource.
+
+## PVC (Persistent Volume Claim)
+
+Request for storage.
+
+In AWS:
+
+* EBS
+* EFS
+
+---
+
+# 17. EBS vs EFS in EKS
+
+| EBS                | EFS                 |
+| ------------------ | ------------------- |
+| Block storage      | Shared filesystem   |
+| Single AZ          | Multi-AZ            |
+| Single node attach | Multiple pod access |
+
+---
+
+# 18. Taints and Tolerations
+
+Used to restrict pod scheduling.
+
+Example:
+
+kubectl taint nodes node1 app=db:NoSchedule
+
+Purpose:
+
+* Dedicated nodes for workloads
+
+---
+
+# 19. Node Affinity
+
+Controls pod placement.
+
+Example:
+
+* Run pods only on SSD nodes.
+
+---
+
+# 20. Network Policies
+
+Controls pod-to-pod communication.
+
+Used for:
+
+* Zero trust networking
+* Security isolation
+
+---
+
+# 21. Helm
+
+Kubernetes package manager.
+
+Main concepts:
+
+* Chart
+* Repository
+* Values.yaml
+* Release
+
+Commands:
+
+
+helm install
+helm upgrade
+helm rollback
+
+
+---
+
+# 22. Kubernetes Logging
+
+Common stack:
+
+* Fluentd/FluentBit
+* Elasticsearch/OpenSearch
+* Kibana
+
+Cloud:
+
+* CloudWatch
+* Datadog
+
+---
+
+# 23. Kubernetes Monitoring
+
+Popular tools:
+
+* Prometheus
+* Grafana
+* Datadog
+
+Monitor:
+
+* CPU
+* Memory
+* Pod health
+* API latency
+
+---
+
+# 24. EKS Networking
+
+Very important interview topic.
+
+Uses:
+
+* AWS VPC CNI
+
+Each Pod gets:
+
+* Real VPC IP
+
+Benefits:
+
+* Native VPC networking
+
+---
+
+# 25. CoreDNS
+
+Handles service discovery.
+
+Example:
+
+
+myservice.default.svc.cluster.local
+
+
+---
+
+# 26. AWS Load Balancer Controller
+
+Creates:
+
+* ALB
+* NLB
+
+From:
+
+* Kubernetes Ingress resources
+
+Very important in EKS.
+
+---
+
+# 27. Security in Kubernetes
+
+Important topics:
+
+* RBAC
+* Network Policies
+* Pod Security
+* IAM
+* Secrets Management
+
+Best Practice:
+
+* Never run containers as root.
+
+---
+
+# 28. Kubernetes Deployment Strategies
+
+| Strategy       | Purpose                |
+| -------------- | ---------------------- |
+| Rolling Update | Default gradual update |
+| Recreate       | Stop old, start new    |
+| Blue-Green     | Two environments       |
+| Canary         | Small traffic testing  |
+
+---
+
+# 29. Kubernetes Troubleshooting
+
+## Common Commands
+
+
+kubectl get pods
+kubectl describe pod <pod>
+kubectl logs <pod>
+kubectl top pod
+kubectl get events
+
+
+---
+
+# 30. CrashLoopBackOff
+
+Meaning:
+
+* Container repeatedly crashing.
+
+Common reasons:
+
+* Wrong command
+* Missing env vars
+* DB connection failure
+* Application error
+
+---
+
+# 31. OOMKilled
+
+Meaning:
+
+* Pod exceeded memory limit.
+
+Fix:
+
+* Increase memory limit
+* Optimize app
+
+---
+
+# 32. Init Containers
+
+Run before main container.
+
+Used for:
+
+* DB migrations
+* Dependency checks
+
+---
+
+# 33. Sidecar Containers
+
+Helper containers running with app container.
+
+Examples:
+
+* Logging agent
+* Monitoring agent
+* Proxy container
+
+---
+
+# 34. GitOps
+
+Managing Kubernetes using Git.
+
+Popular tools:
+
+* ArgoCD
+* FluxCD
+
+Benefits:
+
+* Version control
+* Automated deployments
+
+---
+
+# 35. ArgoCD
+
+GitOps deployment tool.
+
+Features:
+
+* Auto sync
+* Rollback
+* Drift detection
+
+Interview Tip:
+
+* Desired state stored in Git.
+
+---
+
+# 36. Kubernetes Security Context
+
+Controls:
+
+* User permissions
+* Privileges
+* Filesystem access
+
+---
+
+# 37. Admission Controllers
+
+Intercept API requests.
+
+Examples:
+
+* Resource quota enforcement
+* Security policies
+
+---
+
+# 38. ETCD
+
+Key-value datastore storing cluster state.
+
+Important:
+
+* Backup ETCD regularly.
+
+---
+
+# 39. Important EKS Services
+
+| Service    | Purpose               |
+| ---------- | --------------------- |
+| EKS        | Kubernetes            |
+| ECR        | Docker image registry |
+| IAM        | Authentication        |
+| CloudWatch | Logs/metrics          |
+| ALB        | Ingress               |
+| EBS/EFS    | Storage               |
+
+---
+
+# 40. Common EKS Interview Questions
+
+## Q1. What is EKS?
+
+Managed Kubernetes service by AWS.
+
+---
+
+## Q2. What is IRSA?
+
+IAM Roles for Service Accounts allowing Pods secure AWS access.
+
+---
+
+## Q3. Difference between Deployment and StatefulSet?
+
+Deployment:
+
+* Stateless apps
+
+StatefulSet:
+
+* Stateful apps with persistent identity
+
+---
+
+## Q4. What is HPA?
+
+Automatically scales pods based on metrics.
+
+---
+
+## Q5. What is DaemonSet?
+
+Runs one pod per node.
+
+---
+
+## Q6. What causes CrashLoopBackOff?
+
+Application repeatedly failing.
+
+---
+
+## Q7. What is Ingress?
+
+Manages external HTTP/HTTPS traffic.
+
+---
+
+## Q8. Difference between Requests and Limits?
+
+Requests:
+
+* Guaranteed resources
+
+Limits:
+
+* Maximum allowed resources
+
+---
+
+## Q9. What is Helm?
+
+Kubernetes package manager.
+
+---
+
+## Q10. Difference between ConfigMap and Secret?
+
+ConfigMap:
+
+* Non-sensitive config
+
+Secret:
+
+* Sensitive data
+
+---
+
+# 41. Important kubectl Commands
+
+
+kubectl get pods
+kubectl get nodes
+kubectl describe pod <pod>
+kubectl logs <pod>
+kubectl exec -it <pod> -- bash
+kubectl top pod
+kubectl get events
+kubectl apply -f file.yaml
+kubectl delete -f file.yaml
+
+
+---
+
+# 42. Real Interview Scenarios
+
+## Scenario 1
+
+Pods crashing after deployment.
+
+Check:
+
+* Logs
+* Describe pod
+* Events
+* Resource limits
+
+---
+
+## Scenario 2
+
+Application inaccessible.
+
+Check:
+
+* Service
+* Ingress
+* Security groups
+* ALB
+* Network policy
+
+---
+
+## Scenario 3
+
+High CPU usage.
+
+Solutions:
+
+* HPA
+* Optimize app
+* Increase resources
+
+---

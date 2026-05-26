@@ -1,0 +1,113 @@
+# 42. Hands-on Coding Practice for Interview
+
+# Practice 1 — Create Deployment
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deploy
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: nginx
+
+  template:
+    metadata:
+      labels:
+        app: nginx
+
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+
+
+Apply:
+
+
+kubectl apply -f deployment.yaml
+
+
+---
+
+# Practice 2 — Expose Service
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+
+spec:
+  selector:
+    app: nginx
+
+  ports:
+  - port: 80
+    targetPort: 80
+
+  type: NodePort
+`
+
+---
+
+# Practice 3 — ConfigMap
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+
+data:
+  ENV: prod
+
+
+---
+
+# Practice 4 — Secret
+
+
+kubectl create secret generic db-secret \
+--from-literal=password=admin123
+
+
+---
+
+# Practice 5 — HPA
+
+
+kubectl autoscale deployment nginx \
+--cpu-percent=70 \
+--min=2 \
+--max=5
+
+
+---
+
+# Practice 6 — Helm
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm install my-nginx bitnami/nginx
+
+
+---
+
+# Practice 7 — Debugging
+
+`
+kubectl describe pod <pod>
+
+kubectl logs <pod>
+
+kubectl get events
+
+
+---
+

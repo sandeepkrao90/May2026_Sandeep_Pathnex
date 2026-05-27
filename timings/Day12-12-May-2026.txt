@@ -1,0 +1,647 @@
+
+# 1. What is Helm?
+
+Helm is the package manager for Kubernetes.
+
+Similar to:
+
+* apt → Ubuntu
+* yum → RHEL
+* npm → NodeJS
+
+Helm helps:
+
+* Install applications
+* Upgrade applications
+* Rollback applications
+* Template Kubernetes YAMLs
+
+---
+
+# 2. Why Helm is Needed
+
+Without Helm:
+
+* Huge YAML files
+* Repetitive configs
+* Difficult upgrades
+* Manual deployments
+
+Helm solves:
+
+* Reusability
+* Versioning
+* Templating
+* Easy deployments
+
+---
+
+# 3. Helm Architecture
+
+Main Concepts:
+
+* Chart
+* Repository
+* Release
+* Values.yaml
+* Templates
+
+---
+
+# 4. Important Helm Terminologies
+
+| Term        | Meaning                  |
+| ----------- | ------------------------ |
+| Chart       | Helm package             |
+| Repository  | Collection of charts     |
+| Release     | Installed chart instance |
+| Values.yaml | Configuration file       |
+| Template    | Dynamic Kubernetes YAML  |
+
+---
+
+# 5. Helm Workflow
+
+Helm Chart → Render Templates → Kubernetes Resourcesa
+
+1. Helm reads templates
+2. Replaces variables from values.yaml
+3. Generates final YAML
+4. Deploys to Kubernetes
+
+---
+
+# 6. Helm Chart Structure
+
+mychart/
+├── Chart.yaml
+├── values.yaml
+├── charts/
+├── templates/
+---
+
+# 7. Important Helm Files
+
+## Chart.yaml
+
+Contains chart metadata.
+
+Example:
+
+apiVersion: v2
+name: nginx-chart
+version: 1.0.0
+
+---
+
+## values.yaml
+
+Stores configurable values.
+
+Example:
+
+replicaCount: 2
+
+image:
+  repository: nginx
+
+
+---
+
+## templates/
+
+Contains Kubernetes YAML templates.
+
+Example:
+
+replicas: {{ .Values.replicaCount }}
+
+---
+
+# 8. Helm Installation
+
+Mac:
+
+brew install helm
+
+Verify:
+
+helm version
+
+---
+
+# 9. Important Helm Commands
+
+# Repository Commands
+
+## Add Repo
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+---
+
+## Update Repo
+
+helm repo update
+
+---
+
+## Search Charts
+
+helm search repo nginx
+
+---
+
+# Release Commands
+
+## Install Chart
+
+helm install my-nginx bitnami/nginx
+
+---
+
+## List Releases
+
+helm list
+
+---
+
+## Upgrade Release
+
+helm upgrade my-nginx bitnami/nginx
+
+---
+
+## Rollback Release
+
+helm rollback my-nginx 1
+
+---
+
+## Uninstall Release
+
+helm uninstall my-nginx
+
+---
+
+# Debugging Commands
+
+## Dry Run
+
+helm install my-nginx bitnami/nginx --dry-run
+
+---
+
+## Template Rendering
+
+helm template my-nginx bitnami/nginx
+
+---
+
+## Get Values
+
+helm get values my-nginx
+
+---
+
+## History
+
+helm history my-nginx
+
+---
+
+# 10. Helm Templating
+
+Uses Go templating syntax.
+
+Example:
+
+name: {{ .Values.appName }}
+---
+
+# 11. Helm Variables
+
+## Access Values
+
+{{ .Values.image.repository }}
+
+---
+
+## Release Name
+
+{{ .Release.Name }}
+
+---
+
+## Namespace
+
+{{ .Release.Namespace }}
+
+---
+
+# 12. Helm Lifecycle
+
+| Action    | Purpose        |
+| --------- | -------------- |
+| install   | Deploy chart   |
+| upgrade   | Update release |
+| rollback  | Revert version |
+| uninstall | Remove release |
+
+---
+
+# 13. Helm vs kubectl
+
+| Helm                  | kubectl         |
+| --------------------- | --------------- |
+| Package manager       | CLI tool        |
+| Templates YAML        | Applies YAML    |
+| Supports rollback     | Manual rollback |
+| Versioned deployments | No versioning   |
+
+---
+
+# 14. Helm in Production
+
+Common Use Cases:
+
+* Nginx Ingress
+* Prometheus
+* Grafana
+* Datadog
+* ArgoCD
+* Jenkins
+* Kafka
+
+---
+
+# 15. Helm Best Practices
+
+* Keep values.yaml clean
+* Use environment-specific values
+* Use version pinning
+* Use helm lint
+* Use dry-run before deployment
+
+---
+
+# 16. Helm Hooks
+
+Used to execute actions:
+
+* Before install
+* After install
+* Before upgrade
+
+Examples:
+
+* DB migrations
+* Backup jobs
+
+---
+
+# 17. Helm Dependencies
+
+One chart can depend on another.
+
+Example:
+
+* App depends on Redis
+
+Defined in:
+
+dependencies:
+
+---
+
+# 18. Helm Rollback
+
+
+Command:
+
+helm rollback myapp 1
+
+Benefits:
+
+* Easy recovery
+* Version management
+
+---
+
+# 19. Helm Security
+
+Best Practices:
+
+* Avoid secrets in values.yaml
+* Use sealed secrets
+* Use RBAC
+* Scan charts
+
+---
+
+# 20. Helm + EKS Important Concepts
+
+Most EKS environments use Helm for:
+
+* Monitoring stack
+* Ingress controller
+* Logging stack
+* GitOps tools
+* Security tools
+
+---
+
+# 21. Important Helm Charts Used in EKS
+
+| Tool              | Helm Chart                   |
+| ----------------- | ---------------------------- |
+| Prometheus        | kube-prometheus-stack        |
+| Grafana           | grafana                      |
+| NGINX Ingress     | ingress-nginx                |
+| AWS LB Controller | aws-load-balancer-controller |
+| ArgoCD            | argo-cd                      |
+| Datadog           | datadog                      |
+
+---
+
+# 22. AWS Load Balancer Controller via Helm
+
+Install:
+
+helm repo add eks https://aws.github.io/eks-charts
+
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller
+
+Very important in EKS.
+
+---
+
+# 23. Helm + CI/CD
+
+Used in:
+
+* Jenkins
+* GitHub Actions
+* ArgoCD
+
+Flow:
+
+Build Docker Image → Push to ECR → Helm Upgrade on EKS
+
+---
+
+# 24. Multi-Environment Helm
+
+Different values files:
+
+values-dev.yaml
+values-stg.yaml
+values-prod.yaml
+
+
+Deploy:
+
+helm install app . -f values-prod.yaml
+
+---
+
+# 25. Common Helm Interview Questions
+
+# Q1. What is Helm?
+
+Package manager for Kubernetes used to simplify deployments.
+
+---
+
+# Q2. What is a Helm Chart?
+
+Collection of templates and configuration files for Kubernetes applications.
+
+---
+
+# Q3. What is values.yaml?
+
+Configuration file storing customizable variables.
+
+---
+
+# Q4. Difference between Helm and kubectl?
+
+Helm manages packages/releases.
+kubectl directly manages resources.
+
+---
+
+# Q5. What is a Helm Release?
+
+Running instance of a Helm chart.
+
+---
+
+# Q6. What is Helm Rollback?
+
+Reverting application to previous release version.
+
+---
+
+# Q7. What is Helm Template?
+
+Renders Kubernetes manifests locally.
+
+---
+
+# Q8. What are Helm Hooks?
+
+Scripts/actions executed during chart lifecycle.
+
+---
+
+# Q9. What is Helm Dependency?
+
+One chart using another chart.
+
+---
+
+# Q10. Why Helm is useful in EKS?
+
+Simplifies deployments and lifecycle management in Kubernetes.
+
+---
+
+# 26. Hands-On Coding Practice
+
+# Practice 1 — Create Helm Chart
+
+
+helm create mychart
+
+
+---
+
+# Practice 2 — Install Chart
+
+helm install myapp ./mychart
+
+
+---
+
+# Practice 3 — Upgrade Release
+
+
+helm upgrade myapp ./mychart
+
+
+---
+
+# Practice 4 — Rollback
+
+
+helm rollback myapp 1
+
+
+---
+
+# Practice 5 — Render Templates
+
+helm template myapp ./mychart
+
+
+---
+
+# Practice 6 — Validate Chart
+
+
+helm lint ./mychart
+
+
+---
+
+# Practice 7 — Override Values
+
+helm install myapp ./mychart \
+--set replicaCount=3
+
+---
+
+# 27. EKS Provisioning Commands
+
+# Create EKS Cluster (eksctl)
+
+## Create Cluster
+
+eksctl create cluster \
+--name demo-cluster \
+--region ap-south-1 \
+--nodegroup-name workers \
+--node-type t3.medium \
+--nodes 2
+
+
+---
+
+## Get Cluster
+
+eksctl get cluster
+
+
+---
+
+## Delete Cluster
+
+eksctl delete cluster --name demo-cluster
+
+
+---
+
+# Update kubeconfig
+
+aws eks update-kubeconfig \
+--region ap-south-1 \
+--name demo-cluster
+
+---
+
+# Verify Cluster
+
+kubectl get nodes
+
+---
+
+# 28. Important EKS Operational Commands
+
+# Pods
+
+kubectl get pods -A
+kubectl describe pod <pod>
+kubectl logs <pod>
+
+
+---
+
+# Nodes
+
+kubectl get nodes
+kubectl top nodes
+
+
+---
+
+# Deployments
+
+kubectl get deployments
+kubectl rollout status deployment nginx
+
+
+---
+
+# Services
+
+kubectl get svc
+
+---
+
+# Ingress
+
+kubectl get ingress
+
+
+---
+
+# 29. Real Production Scenarios
+
+# Scenario 1
+
+Helm upgrade failed.
+
+Check:
+
+helm history myapp
+helm rollback myapp 1
+
+
+---
+
+# Scenario 2
+
+Ingress not working in EKS.
+
+Check:
+
+* ALB controller
+* Security groups
+* Ingress annotations
+* Target group health
+
+---
+
+# Scenario 3
+
+Pods not starting after Helm deployment.
+
+Check:
+
+kubectl describe pod
+kubectl logs
+helm get values
+
+---

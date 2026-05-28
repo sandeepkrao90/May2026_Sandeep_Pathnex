@@ -1,0 +1,372 @@
+# Helm Important Commands Cheat Sheet (Interview + Production + EKS)
+
+# 1. Install Helm
+
+## Mac
+
+# Install Helm using Homebrew
+brew install helm
+
+# Check Helm version
+
+helm version
+
+## Add Repository
+
+
+# Add Bitnami repository
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+## Add EKS Charts Repository
+
+# AWS EKS official Helm charts
+helm repo add eks https://aws.github.io/eks-charts
+
+## Add Prometheus Community Repo
+
+
+# Prometheus & Grafana charts
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+
+## Add Grafana Repo
+
+# Grafana Helm charts
+helm repo add grafana https://grafana.github.io/helm-charts
+
+
+## Add ArgoCD Repo
+
+# ArgoCD Helm charts
+helm repo add argo https://argoproj.github.io/argo-helm
+
+
+## Add NGINX Ingress Repo
+
+# NGINX ingress controller charts
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+## Update All Repositories
+
+# Refresh chart metadata
+helm repo update
+
+## List Repositories
+
+# Show added repositories
+helm repo list
+
+## Remove Repository
+
+# Delete repository
+helm repo remove bitnami
+
+## Search Repo Charts
+# Search nginx charts
+helm search repo nginx
+
+## Search Specific Chart
+
+# Search prometheus chart
+helm search repo prometheus
+
+## Create New Helm Chart
+
+
+# Create Helm chart skeleton
+helm create mychart
+
+
+Creates:
+mychart/
+├── Chart.yaml
+├── values.yaml
+├── charts/
+├── templates/
+
+
+# Install Helm Charts
+
+## Install NGINX
+
+# Install nginx chart
+helm install my-nginx bitnami/nginx
+
+
+## Install Prometheus Stack
+
+# Install kube-prometheus-stack
+helm install monitoring prometheus-community/kube-prometheus-stack
+
+
+## Install Grafana
+
+# Install Grafana
+helm install grafana grafana/grafana
+
+
+## Install ArgoCD
+
+# Create namespace
+kubectl create namespace argocd
+
+# Install ArgoCD
+helm install argocd argo/argo-cd -n argocd
+
+
+## Install NGINX Ingress Controller
+
+# Install ingress controller
+helm install ingress ingress-nginx/ingress-nginx
+
+## Install AWS Load Balancer Controller (EKS)
+# Install AWS LB Controller
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+-n kube-system \
+--set clusterName=demo-cluster
+
+
+## Install Metrics Server
+
+# Install metrics server
+helm install metrics-server bitnami/metrics-server
+
+
+## Install Datadog
+# Install Datadog agent
+helm install datadog datadog/datadog
+
+# List & Manage Releases
+
+## List Installed Releases
+
+# Show installed Helm releases
+helm list
+
+
+## List All Namespaces
+
+# Show releases across namespaces
+helm list -A
+
+## Show Release Status
+
+# Check release status
+helm status my-nginx
+
+## Get Installed Values
+
+# Show Helm values
+helm get values my-nginx
+
+## Get Full Manifest
+
+# Show generated Kubernetes YAML
+helm get manifest my-nginx
+
+
+# Upgrade Helm Releases
+
+## Upgrade Existing Release
+
+# Upgrade chart
+helm upgrade my-nginx bitnami/nginx
+
+
+## Upgrade Using Custom Values
+
+
+# Upgrade using values file
+helm upgrade my-nginx bitnami/nginx -f values-prod.yaml
+
+## Override Single Value
+
+# Set replica count dynamically
+helm upgrade my-nginx bitnami/nginx \
+--set replicaCount=3
+
+
+# Rollback Commands
+
+## View Release History
+
+# Show release revisions
+helm history my-nginx
+
+## Rollback Release
+
+# Rollback to revision 1
+helm rollback my-nginx 1
+
+# Uninstall Commands
+
+## Delete Helm Release
+# Remove release
+helm uninstall my-nginx
+
+## Delete Release from Namespace
+# Remove release from namespace
+helm uninstall my-nginx -n prod
+
+# Debugging Commands
+
+## Dry Run Installation
+
+# Simulate installation
+helm install my-nginx bitnami/nginx --dry-run
+
+## Render Templates Locally
+
+# Render YAML without deployment
+helm template my-nginx bitnami/nginx
+
+## Validate Helm Chart
+# Lint chart
+helm lint ./mychart
+
+
+## Debug Installation
+
+# Detailed debug output
+helm install my-nginx bitnami/nginx --debug
+
+# Values.yaml Commands
+
+## Show Default Values
+
+# Get default chart values
+helm show values bitnami/nginx
+
+## Use Custom Values File
+# Deploy using custom values
+helm install my-nginx bitnami/nginx \
+-f values.yaml
+
+# Dependency Commands
+
+## Build Dependencies
+
+# Download dependencies
+helm dependency build
+
+## Update Dependencies
+# Update dependent charts
+helm dependency update
+
+
+# Package Helm Charts
+
+## Package Chart
+# Create tgz package
+helm package mychar
+
+## Push to OCI Registry
+
+# Push chart to OCI registry
+helm push mychart-0.1.0.tgz oci://repo-url
+
+# Common EKS Helm Charts
+
+| Tool              | Helm Chart                   |
+| ----------------- | ---------------------------- |
+| Prometheus        | kube-prometheus-stack        |
+| Grafana           | grafana                      |
+| ArgoCD            | argo-cd                      |
+| Metrics Server    | metrics-server               |
+| NGINX Ingress     | ingress-nginx                |
+| AWS LB Controller | aws-load-balancer-controller |
+| Datadog           | datadog                      |
+| FluentBit         | fluent-bit                   |
+| ExternalDNS       | external-dns                 |
+| Cert Manager      | cert-manager                 |
+
+
+# Important EKS Helm Installations
+
+# Install Cluster Autoscaler
+
+# Add autoscaler
+helm install cluster-autoscaler autoscaler/cluster-autoscaler
+
+
+# Install ExternalDNS
+# Manage Route53 DNS automatically
+helm install external-dns bitnami/external-dns
+
+
+# Install Cert Manager
+
+# TLS certificate management
+helm install cert-manager jetstack/cert-manager
+
+
+# Install Fluent Bit
+# Log forwarding agent
+helm install fluent-bit fluent/fluent-bit
+
+#Helm + EKS Operational Commands
+
+## Check Pods
+
+# List pods
+kubectl get pods -A
+
+## Check Services
+# List services
+kubectl get svc -A
+
+
+## Check Ingress
+
+# List ingress resources
+kubectl get ingress -A
+
+
+## Check Load Balancer
+# Describe ingress
+kubectl describe ingress
+
+## Check Events
+# Troubleshooting events
+kubectl get events --sort-by=.metadata.creationTimestamp
+
+
+# Production Troubleshooting
+
+## Pods Not Starting
+kubectl describe pod <pod>
+kubectl logs <pod>
+
+## Helm Release Failed
+
+helm history myapp
+helm rollback myapp 1
+
+## Check Helm Resources
+helm get manifest myapp
+
+
+# Most Important Helm Commands for Interviews
+helm repo add
+helm repo update
+helm search repo
+helm install
+helm upgrade
+helm rollback
+helm uninstall
+helm template
+helm lint
+helm history
+helm list
+
+# Most Important EKS Helm Charts
+aws-load-balancer-controller
+kube-prometheus-stack
+grafana
+ingress-nginx
+argo-cd
+metrics-server
+external-dns
+cluster-autoscaler
+datadog
+fluent-bit

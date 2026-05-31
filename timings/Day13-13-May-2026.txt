@@ -1,0 +1,558 @@
+What is Ansible?
+
+Ansible is an open-source configuration management, automation, orchestration, and provisioning tool used in DevOps and Cloud environments.
+
+It helps automate:
+
+Server configuration
+Software installation
+Infrastructure provisioning
+Application deployment
+Patch management
+Security hardening
+CI/CD workflows
+
+Ansible is very popular because:
+
+Agentless (no software needed on target servers)
+Uses simple YAML syntax
+Easy to learn
+Works well with Linux, Cloud, Kubernetes, Docker, Networking devices
+Why Ansible is Needed in DevOps
+
+Without Ansible:
+
+Manual server setup
+Human errors
+Inconsistent environments
+Time-consuming deployments
+
+With Ansible:
+
+Infrastructure becomes repeatable
+Faster deployments
+Consistent environments
+Infrastructure as Code (IaC)
+Easier scaling
+Real Production Use Cases
+
+1. Server Provisioning
+
+Install packages and configure:
+
+NGINX
+Docker
+Java
+Kubernetes tools
+
+Example:
+
+Install nginx on 100 servers automatically
+
+2. Application Deployment
+
+Deploy Java/Node/Python applications to multiple servers.
+
+Example:
+
+Deploy banking application to production
+
+3. Configuration Management
+
+Maintain same config across environments.
+
+Example:
+
+Ensure all servers have same timezone, users, packages
+
+4. Patch Management
+
+Update Linux servers automatically.
+
+Example:
+
+yum update -y on all production servers
+
+5. Kubernetes Automation
+
+Automate:
+
+EKS setup
+Helm installation
+K8s deployments
+6. Cloud Automation
+
+Automate AWS resources:
+
+EC2
+VPC
+S3
+IAM
+RDS
+Ansible Architecture
+Control Node
+
+Machine where Ansible is installed.
+
+Example:
+
+Your Mac/Linux laptop or Jenkins server
+Managed Nodes
+
+Target servers managed by Ansible.
+
+Example:
+
+EC2 instances
+Linux servers
+Kubernetes nodes
+Communication
+
+Ansible mainly uses:
+
+SSH for Linux
+WinRM for Windows
+
+No agent required.
+
+Important Ansible Components
+1. Inventory
+
+List of servers.
+
+Example:
+
+[web]
+10.0.0.10
+10.0.0.11
+
+[db]
+10.0.0.20
+2. Modules
+
+Actual units of work.
+
+Examples:
+
+yum
+apt
+copy
+service
+user
+file
+
+Example:
+
+- name: Install nginx
+  yum:
+    name: nginx
+    state: present
+3. Playbooks
+
+YAML files containing automation steps.
+
+Example:
+
+---
+- hosts: web
+  become: yes
+
+  tasks:
+    - name: Install nginx
+      yum:
+        name: nginx
+        state: present
+4. Roles
+
+Reusable structure for large projects.
+
+Used in production heavily.
+
+Example structure:
+
+roles/
+  nginx/
+    tasks/
+    handlers/
+    templates/
+    files/
+    vars/
+5. Handlers
+
+Triggered only when changes occur.
+
+Example:
+
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+6. Variables
+
+Used to make playbooks dynamic.
+
+Example:
+
+http_port: 80
+7. Templates (Jinja2)
+
+Dynamic configuration files.
+
+Example:
+
+listen {{ http_port }};
+Beginner to Advanced Learning Path
+Stage 1 — Beginner
+Learn:
+What is Ansible
+YAML basics
+Inventory
+Ad-hoc commands
+Simple playbooks
+Important Commands
+Ping Servers
+ansible all -m ping
+Gather Facts
+ansible all -m setup
+Install Package
+ansible web -m yum -a "name=nginx state=present"
+
+
+Stage 2 — Intermediate
+Learn:
+Variables
+Loops
+Conditionals
+Templates
+Handlers
+Roles
+Loops Example
+- name: Install packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - git
+    - docker
+    - nginx
+Conditions Example
+when: ansible_os_family == "RedHat"
+
+Stage 3 — Advanced
+Learn:
+Ansible Vault
+Dynamic inventory
+AWS integration
+Kubernetes automation
+CI/CD integration
+Ansible Galaxy
+Error handling
+Tags
+Async tasks
+Ansible Vault
+
+Encrypt secrets.
+
+Example:
+
+ansible-vault create secrets.yml
+
+Used for:
+
+Passwords
+API keys
+Certificates
+Dynamic Inventory
+
+Automatically fetch cloud servers.
+
+Example:
+
+AWS EC2 inventory
+
+Very important in cloud environments.
+
+Ansible + AWS
+
+Automate:
+
+EC2
+S3
+VPC
+IAM
+
+Uses AWS modules.
+
+Example:
+
+- amazon.aws.ec2_instance:
+Ansible + Kubernetes
+
+Automate:
+
+EKS setup
+Deployments
+Helm charts
+
+Very useful for DevOps jobs.
+
+Ansible Project Structure (Production)
+ansible-project/
+├── inventory/
+├── playbooks/
+├── roles/
+├── group_vars/
+├── host_vars/
+├── templates/
+├── files/
+└── ansible.cfg
+Important Ansible Files
+ansible.cfg
+
+Configuration file.
+
+Example:
+
+[defaults]
+inventory=inventory
+remote_user=ec2-user
+host_key_checking=False
+Best Practices
+1. Use Roles
+
+Makes code reusable.
+
+2. Keep Secrets in Vault
+
+Never hardcode passwords.
+
+3. Use Idempotency
+
+Ansible should not make unnecessary changes.
+
+Example:
+Running playbook multiple times gives same result.
+
+Very important interview question.
+
+4. Use Separate Inventories
+
+Example:
+
+inventory/dev
+inventory/stg
+inventory/prod
+Important DevOps Integrations
+Jenkins + Ansible
+
+Use Jenkins pipeline to trigger playbooks.
+
+Docker + Ansible
+
+Automate Docker installation and container deployment.
+
+Kubernetes + Ansible
+
+Manage EKS clusters and deployments.
+
+Terraform + Ansible
+
+Common production flow:
+
+Terraform → Create Infrastructure
+Ansible → Configure Infrastructure
+
+Very important interview concept.
+
+Common Ansible Commands
+Install Ansible
+Mac
+brew install ansible
+Linux
+sudo yum install ansible -y
+Check Version
+ansible --version
+Test Inventory
+ansible all --list-hosts
+Run Playbook
+ansible-playbook site.yml
+Dry Run
+ansible-playbook site.yml --check
+Show Differences
+ansible-playbook site.yml --diff
+Important Interview Questions
+Beginner Level
+What is Ansible?
+
+Automation and configuration management tool.
+
+Why is Ansible called agentless?
+
+No agent/software required on target servers.
+
+Uses SSH/WinRM.
+
+What is Inventory?
+
+List of managed hosts.
+
+Difference between Playbook and Module?
+Module → Single task
+Playbook → Collection of tasks
+What is YAML?
+
+Human-readable data serialization language used in playbooks.
+
+Intermediate Level
+What is Idempotency?
+
+Repeated execution gives same result without unnecessary changes.
+
+Difference between Static and Dynamic Inventory?
+Static → Manual server list
+Dynamic → Automatically fetched from cloud
+What are Roles?
+
+Reusable Ansible project structures.
+
+What are Handlers?
+
+Tasks triggered only on change notification.
+
+What is Ansible Vault?
+
+Used to encrypt sensitive data.
+
+Advanced Level
+Difference between Terraform and Ansible?
+Terraform	Ansible
+Infrastructure provisioning	Configuration management
+Declarative	Procedural
+Creates infra	Configures infra
+How does Ansible work internally?
+Reads inventory
+Connects over SSH
+Pushes temporary modules
+Executes tasks
+Removes temporary files
+What is Ansible Galaxy?
+
+Repository for reusable roles.
+
+Explain Tags in Ansible
+
+Run selective tasks.
+
+Example:
+
+ansible-playbook site.yml --tags nginx
+What is become in Ansible?
+
+Privilege escalation.
+
+Example:
+
+become: yes
+
+Equivalent to sudo.
+
+Important Real-Time Scenarios
+Scenario 1
+
+Deploy NGINX on 200 EC2 servers.
+
+Scenario 2
+
+Automate patching for Linux servers.
+
+Scenario 3
+
+Deploy Kubernetes monitoring stack.
+
+Scenario 4
+
+Rotate SSL certificates automatically.
+
+Very useful considering your Open Banking/API support background.
+
+Ansible Notes for Quick Interview Revision
+Ansible Quick Revision Notes
+What is Ansible
+Open-source automation tool
+Used for configuration management, deployment, orchestration
+Agentless
+Uses SSH/WinRM
+Written in Python
+Uses YAML playbooks
+Core Components
+Inventory → List of hosts
+Module → Unit of work
+Playbook → YAML automation file
+Role → Reusable project structure
+Handler → Triggered on changes
+Variables → Dynamic values
+Templates → Jinja2 dynamic configs
+Important Features
+Agentless
+Idempotent
+Easy to learn
+Multi-tier deployment
+Cloud automation
+Infrastructure as Code
+Important Commands
+Ping
+ansible all -m ping
+Gather Facts
+ansible all -m setup
+Run Playbook
+ansible-playbook site.yml
+Dry Run
+ansible-playbook site.yml --check
+Run Specific Tags
+ansible-playbook site.yml --tags nginx
+Important Interview Points
+Idempotency
+Agentless architecture
+SSH-based communication
+Difference between Terraform and Ansible
+Static vs Dynamic inventory
+Roles and handlers
+Ansible Vault
+Tags
+become/sudo
+CI/CD integration
+Production Best Practices
+Use roles
+Separate dev/stg/prod inventory
+Store secrets in Vault
+Use Git for version control
+Use Jenkins pipeline integration
+Avoid hardcoding values
+Important Integrations
+AWS
+Docker
+Kubernetes
+Jenkins
+Terraform
+Helm
+Real-Time Use Cases
+Server provisioning
+Application deployment
+SSL certificate deployment
+Linux patching
+Kubernetes automation
+Monitoring setup
+Most Important Interview Keyword
+
+"Ansible is agentless and idempotent."
+
+For DevOps interviews in 2026, focus heavily on:
+
+Ansible + AWS
+Ansible + Kubernetes
+Roles and reusable playbooks
+Dynamic inventory
+Jenkins pipeline integration
+Real production troubleshooting scenarios
+
+These are commonly asked in mid-level DevOps and Cloud Engineer interviews.

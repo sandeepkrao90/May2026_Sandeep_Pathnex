@@ -1,0 +1,559 @@
+Day 15 - Jenkins
+
+Here's a complete step-by-step guide to setting up a Jenkins Pipeline on an AWS EC2 instance using Ubuntu. This setup is suitable for CI/CD projects using GitHub.
+
+---
+
+# Architecture
+
+```
+Developer
+    │
+    ▼
+GitHub Repository
+    │
+    ▼
+Jenkins (EC2)
+    │
+    ├── Build
+    ├── Test
+    └── Deploy
+```
+
+---
+
+# Prerequisites
+
+* AWS account
+* EC2 instance (Ubuntu 22.04 or 24.04)
+* GitHub repository
+* SSH key pair
+* Security Group configured
+
+---
+
+# Step 1: Launch an EC2 Instance
+
+Recommended configuration:
+
+* OS: Ubuntu 22.04 LTS
+* Instance type: t2.medium (recommended)
+* Storage: 20 GB
+* Security Group:
+
+| Port | Purpose                |
+| ---- | ---------------------- |
+| 22   | SSH                    |
+| 8080 | Jenkins                |
+| 80   | Application (optional) |
+| 443  | HTTPS (optional)       |
+
+Connect to the server:
+
+```bash
+ssh -i mykey.pem ubuntu@<EC2-Public-IP>
+```
+
+---
+
+# Step 2: Update Ubuntu
+
+```bash
+sudo apt update
+sudo apt upgrade -y
+```
+
+---
+
+# Step 3: Install Java
+
+Jenkins requires Java.
+
+```bash
+sudo apt install openjdk-21-jdk -y
+```
+
+Verify:
+
+```bash
+java -version
+```
+
+Example:
+
+```
+openjdk version "21"
+```
+
+---
+
+# Step 4: Install Jenkins
+
+Import the Jenkins key:
+
+```bash
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+```
+
+Add the repository:
+
+```bash
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+/etc/apt/sources.list.d/jenkins.list > /dev/null
+```
+
+Install Jenkins:
+
+```bash
+sudo apt update
+sudo apt install jenkins -y
+```
+
+---
+
+# Step 5: Start Jenkins
+
+```bash
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+```
+
+Check status:
+
+```bash
+sudo systemctl status jenkins
+```
+
+---
+
+# Step 6: Open Jenkins in Browser
+
+Visit:
+
+```
+http://<EC2-Public-IP>:8080
+```
+
+---
+
+# Step 7: Get Initial Admin Password
+
+```bash
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+Copy the password and paste it into the Jenkins setup page.
+
+---
+
+# Step 8: Install Suggested Plugins
+
+Choose:
+
+```
+Install Suggested Plugins
+```
+
+Wait for installation to complete.
+
+---
+
+# Step 9: Create Admin User
+
+Provide:
+
+* Username
+* Password
+* Email
+
+Save.
+
+---
+
+# Step 10: Install Required Plugins
+
+Go to:
+
+```
+Manage Jenkins
+    ↓
+Plugins
+```
+
+Install:
+
+* Git
+* Pipeline
+* GitHub
+* Docker (if needed)
+* SSH Agent
+* Blue Ocean (optional)
+
+Restart Jenkins if prompted.
+
+---
+
+# Step 11: Install Git on EC2
+
+```bash
+sudo apt install git -y
+```
+
+Verify:
+
+```bash
+git --version
+```
+
+---
+
+# Step 12: Connect Jenkins to GitHub
+
+Go to:
+
+```
+Manage Jenkins
+    ↓
+Credentials
+```
+
+Add credentials.
+
+For private repositories:
+
+* Username
+* GitHub Personal Access Token (PAT)
+
+Credential ID example:
+
+```
+github-creds
+```
+
+---
+
+# Step 13: Create a Pipeline Job
+
+Dashboard
+
+```
+New Item
+```
+
+Choose:
+
+```
+Pipeline
+```
+
+Name:
+
+```
+MyPipeline
+```
+
+Click OK.
+
+---
+
+# Step 14: Configure Pipeline
+
+Scroll to
+
+```
+Pipeline
+```
+
+Choose
+
+```
+Pipeline script from SCM
+```
+
+SCM
+
+```
+Git
+```
+
+Repository
+
+```
+https://github.com/username/project.git
+```
+
+Credentials
+
+```
+github-creds
+```
+
+Branch
+
+```
+main
+```
+
+Script Path
+
+```
+Jenkinsfile
+```
+
+Save.
+
+---
+
+# Step 15: Create a Jenkinsfile
+
+In your GitHub repository create:
+
+```
+Jenkinsfile
+```
+
+Example:
+
+```groovy
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/username/project.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building...'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running Tests'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying'
+            }
+        }
+    }
+}
+```
+
+Commit:
+
+```bash
+git add Jenkinsfile
+git commit -m "Add Jenkins Pipeline"
+git push
+```
+
+---
+
+# Step 16: Build the Pipeline
+
+Open
+
+```
+Dashboard
+```
+
+Select
+
+```
+MyPipeline
+```
+
+Click
+
+```
+Build Now
+```
+
+Watch:
+
+```
+Stage View
+```
+
+or
+
+```
+Console Output
+```
+
+---
+
+# Step 17: Enable GitHub Webhook (Optional)
+
+Instead of manually building, trigger builds on each push.
+
+In GitHub:
+
+```
+Settings
+```
+
+↓
+
+```
+Webhooks
+```
+
+↓
+
+```
+Add Webhook
+```
+
+Payload URL:
+
+```
+http://<EC2-IP>:8080/github-webhook/
+```
+
+Content Type:
+
+```
+application/json
+```
+
+Choose:
+
+```
+Just the push event
+```
+
+Save.
+
+In Jenkins:
+
+```
+Build Triggers
+```
+
+Enable:
+
+```
+GitHub hook trigger for GITScm polling
+```
+
+---
+
+# Step 18: Install Docker (Optional)
+
+If deploying containers:
+
+```bash
+sudo apt install docker.io -y
+```
+
+Start Docker:
+
+```bash
+sudo systemctl enable docker
+sudo systemctl start docker
+```
+
+Add Jenkins user to the Docker group:
+
+```bash
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+```
+
+---
+
+# Step 19: Example Docker Pipeline
+
+```groovy
+pipeline {
+
+    agent any
+
+    stages {
+
+        stage('Clone') {
+            steps {
+                git 'https://github.com/username/project.git'
+            }
+        }
+
+        stage('Build Image') {
+            steps {
+                sh 'docker build -t myapp .'
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                sh '''
+                docker stop myapp || true
+                docker rm myapp || true
+                docker run -d --name myapp -p 80:80 myapp
+                '''
+            }
+        }
+    }
+}
+```
+
+---
+
+# Step 20: Common Troubleshooting
+
+| Issue                    | Solution                                                                                                   |
+| ------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| Jenkins won't start      | Check `sudo systemctl status jenkins` and inspect logs with `sudo journalctl -u jenkins`                   |
+| Can't access port 8080   | Ensure the EC2 security group allows inbound TCP on port 8080 and the instance firewall permits it         |
+| Git clone fails          | Verify repository URL and credentials (PAT or SSH key)                                                     |
+| Docker permission denied | Add the `jenkins` user to the `docker` group and restart Jenkins                                           |
+| Webhook not triggering   | Verify the webhook URL, ensure Jenkins is reachable from GitHub, and check webhook delivery logs in GitHub |
+
+## Typical CI/CD Workflow
+
+```text
+Developer pushes code
+        │
+        ▼
+GitHub Repository
+        │
+        ▼
+Webhook triggers Jenkins
+        │
+        ▼
+Checkout source
+        │
+        ▼
+Run tests
+        │
+        ▼
+Build application
+        │
+        ▼
+Build Docker image (optional)
+        │
+        ▼
+Deploy to EC2 / ECS / Kubernetes
+        │
+        ▼
+Application updated
+```
+
+For more details and the latest installation instructions, refer to the official Jenkins documentation:
+
+* [Jenkins Installation Guide](https://www.jenkins.io/doc/book/installing/linux/?utm_source=chatgpt.com)
+* [Jenkins Pipeline Documentation](https://www.jenkins.io/doc/book/pipeline/?utm_source=chatgpt.com)
+* [GitHub Webhooks Documentation](https://docs.github.com/en/webhooks?utm_source=chatgpt.com)
+
+This setup provides a production-ready foundation that you can extend with testing frameworks, Docker, Kubernetes, SonarQube, or deployment to AWS services such as ECS, EKS, or Elastic Beanstalk.

@@ -1,0 +1,481 @@
+If you're just starting with Terraform, the best way to think about it is:
+
+> **Terraform is Infrastructure as Code (IaC).** Instead of creating AWS resources manually in the AWS Console, you describe your infrastructure in configuration files, and Terraform creates, updates, and deletes the resources for you.
+
+---
+
+# Terraform Basics
+
+## What is Terraform?
+
+Terraform is an open-source tool developed by **HashiCorp** that automates infrastructure provisioning.
+
+Instead of clicking through the AWS Console:
+
+```
+AWS Console
+     ↓
+Create EC2
+Create S3
+Create VPC
+Create IAM
+```
+
+You write code like:
+
+```hcl
+resource "aws_instance" "web" {
+    ami           = "ami-123456"
+    instance_type = "t2.micro"
+}
+```
+
+Terraform creates the EC2 instance automatically.
+
+---
+
+# Terraform Workflow
+
+```
+Write Code
+     ↓
+terraform init
+     ↓
+terraform plan
+     ↓
+terraform apply
+     ↓
+Infrastructure Created
+```
+
+---
+
+# Terraform File Structure
+
+A beginner project usually looks like this:
+
+```
+terraform-project/
+
+│
+├── provider.tf
+├── variables.tf
+├── main.tf
+├── outputs.tf
+├── terraform.tfvars
+└── versions.tf
+```
+
+---
+
+# 1. versions.tf
+
+Specify the Terraform version.
+
+```hcl
+terraform {
+
+  required_version = ">= 1.5"
+
+  required_providers {
+
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+
+  }
+
+}
+```
+
+---
+
+# 2. provider.tf
+
+Tell Terraform which cloud provider to use.
+
+```hcl
+provider "aws" {
+
+  region = "us-east-1"
+
+}
+```
+
+Terraform will use your configured AWS credentials.
+
+---
+
+# 3. variables.tf
+
+Define reusable variables.
+
+```hcl
+variable "region" {
+  default = "us-east-1"
+}
+
+variable "instance_type" {
+  default = "t2.micro"
+}
+```
+
+---
+
+# 4. terraform.tfvars
+
+Store actual values.
+
+```hcl
+region = "us-east-1"
+
+instance_type = "t2.micro"
+```
+
+---
+
+# 5. outputs.tf
+
+Display useful values after deployment.
+
+```hcl
+output "instance_id" {
+
+  value = aws_instance.web.id
+
+}
+```
+
+---
+
+# Resource Syntax
+
+Every resource follows this format:
+
+```hcl
+resource "<provider>_<resource>" "<name>" {
+
+    property = value
+
+}
+```
+
+Example:
+
+```hcl
+resource "aws_s3_bucket" "bucket1" {
+
+    bucket = "my-company-bucket"
+
+}
+```
+
+---
+
+# Example 1: EC2 Instance
+
+```hcl
+resource "aws_instance" "web" {
+
+  ami           = "ami-0abcdef1234567890"
+
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "Terraform-EC2"
+  }
+
+}
+```
+
+Explanation
+
+```
+resource → Create resource
+
+aws_instance → EC2
+
+web → Local Terraform name
+
+ami → AMI ID
+
+instance_type → EC2 size
+```
+
+---
+
+# Example 2: S3 Bucket
+
+```hcl
+resource "aws_s3_bucket" "bucket" {
+
+  bucket = "my-demo-terraform-bucket-12345"
+
+  tags = {
+
+    Name = "DemoBucket"
+
+  }
+
+}
+```
+
+---
+
+# Example 3: IAM User
+
+```hcl
+resource "aws_iam_user" "developer" {
+
+  name = "developer-user"
+
+}
+```
+
+---
+
+# IAM Group
+
+```hcl
+resource "aws_iam_group" "developers" {
+
+  name = "Developers"
+
+}
+```
+
+---
+
+# Attach User to Group
+
+```hcl
+resource "aws_iam_user_group_membership" "membership" {
+
+  user = aws_iam_user.developer.name
+
+  groups = [
+    aws_iam_group.developers.name
+  ]
+
+}
+```
+
+---
+
+# Example 4: VPC
+
+```hcl
+resource "aws_vpc" "main" {
+
+  cidr_block = "10.0.0.0/16"
+
+  tags = {
+
+    Name = "Main-VPC"
+
+  }
+
+}
+```
+
+---
+
+# Public Subnet
+
+```hcl
+resource "aws_subnet" "public" {
+
+  vpc_id = aws_vpc.main.id
+
+  cidr_block = "10.0.1.0/24"
+
+  availability_zone = "us-east-1a"
+
+  tags = {
+
+    Name = "PublicSubnet"
+
+  }
+
+}
+```
+
+---
+
+# Internet Gateway
+
+```hcl
+resource "aws_internet_gateway" "igw" {
+
+  vpc_id = aws_vpc.main.id
+
+}
+```
+
+---
+
+# Route Table
+
+```hcl
+resource "aws_route_table" "public" {
+
+  vpc_id = aws_vpc.main.id
+
+  route {
+
+    cidr_block = "0.0.0.0/0"
+
+    gateway_id = aws_internet_gateway.igw.id
+
+  }
+
+}
+```
+
+---
+
+# Security Group
+
+```hcl
+resource "aws_security_group" "web" {
+
+  name = "web-sg"
+
+  vpc_id = aws_vpc.main.id
+
+  ingress {
+
+    from_port = 22
+
+    to_port = 22
+
+    protocol = "tcp"
+
+    cidr_blocks = ["0.0.0.0/0"]
+
+  }
+
+  egress {
+
+    from_port = 0
+
+    to_port = 0
+
+    protocol = "-1"
+
+    cidr_blocks = ["0.0.0.0/0"]
+
+  }
+
+}
+```
+
+---
+
+# Launch EC2 in the VPC
+
+```hcl
+resource "aws_instance" "web" {
+
+  ami = "ami-0abcdef1234567890"
+
+  instance_type = "t2.micro"
+
+  subnet_id = aws_subnet.public.id
+
+  vpc_security_group_ids = [
+    aws_security_group.web.id
+  ]
+
+}
+```
+
+Notice how Terraform links resources automatically:
+
+```
+EC2
+ ↓
+Subnet
+ ↓
+VPC
+
+Security Group
+ ↓
+VPC
+
+Route Table
+ ↓
+Internet Gateway
+```
+
+Terraform builds the dependency graph based on these references.
+
+---
+
+# Terraform Commands
+
+Initialize the project:
+
+```bash
+terraform init
+```
+
+Check the execution plan:
+
+```bash
+terraform plan
+```
+
+Create resources:
+
+```bash
+terraform apply
+```
+
+Destroy resources:
+
+```bash
+terraform destroy
+```
+
+Show current state:
+
+```bash
+terraform show
+```
+
+List managed resources:
+
+```bash
+terraform state list
+```
+
+---
+
+# Best Practices
+
+* Keep providers, variables, outputs, and resources in separate files.
+* Use variables instead of hardcoding values like regions and instance types.
+* Tag all AWS resources consistently (for example, `Name`, `Environment`, `Owner`).
+* Store the Terraform state remotely (such as an S3 bucket with state locking) when working in teams.
+* Use modules to reuse infrastructure across projects.
+* Review changes with `terraform plan` before applying them.
+* Keep sensitive values (passwords, access keys) out of configuration files and use secure secret management.
+
+---
+
+## Suggested Learning Path
+
+1. Learn Terraform syntax (HCL)
+2. Configure the AWS provider
+3. Create an S3 bucket
+4. Launch an EC2 instance
+5. Build a VPC with subnets, route tables, and security groups
+6. Create IAM users, groups, and policies
+7. Learn variables, outputs, and locals
+8. Use modules to organize code
+9. Configure remote state and state locking
+10. Build a complete environment (VPC + EC2 + ALB + Auto Scaling + RDS)
+
+Following this progression will give you a solid foundation in Terraform while introducing AWS resources in a logical order.
